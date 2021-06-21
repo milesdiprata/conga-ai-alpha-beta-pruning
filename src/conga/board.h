@@ -63,6 +63,12 @@ class Board {
   inline static const auto kPlayer1Start = Point(1, 4);
   inline static const auto kPlayer2Start = Point(4, 1);
 
+  inline static const auto kMoves = unordered_map<Move, Point>{
+      {Move::kUp, Point(0, 1)},    {Move::kUpRight, Point(1, 1)},
+      {Move::kRight, Point(1, 0)}, {Move::kDownRight, Point(1, -1)},
+      {Move::kDown, Point(0, -1)}, {Move::kDownLeft, Point(-1, -1)},
+      {Move::kLeft, Point(-1, 0)}, {Move::kUpLeft, Point(-1, 1)}};
+
   Board();
   Board(const Board& board);
   Board(Board&& board);
@@ -91,11 +97,16 @@ class Board {
   unordered_map<Point, Cell, Point::Hasher> board_;
 };
 
+ostream& operator<<(ostream& os, const Board::Player player);
+ostream& operator<<(ostream& os, const Board::Move move);
 ostream& operator<<(ostream& os, const Board::Cell& cell);
 ostream& operator<<(ostream& os, const Board::Point& point);
 ostream& operator<<(ostream& os, const Board& board);
 
 const Board::Point operator+(const Board::Point& lhs, const Board::Point& rhs);
+const Board::Point operator*(const Board::Point& lhs, const int rhs);
+const Board::Point operator*(const int lhs, const Board::Point& rhs);
+
 const bool operator==(const Board::Point& lhs, const Board::Point& rhs);
 const bool operator!=(const Board::Point& lhs, const Board::Point& rhs);
 

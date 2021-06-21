@@ -12,16 +12,6 @@ namespace conga {
 
 class Agent {
  public:
-  inline static const auto kMoves = unordered_map<Board::Move, Board::Point>{
-      {Board::Move::kUp, Board::Point(0, 1)},
-      {Board::Move::kUpRight, Board::Point(1, 1)},
-      {Board::Move::kRight, Board::Point(1, 0)},
-      {Board::Move::kDownRight, Board::Point(1, -1)},
-      {Board::Move::kDown, Board::Point(0, -1)},
-      {Board::Move::kDownLeft, Board::Point(-1, -1)},
-      {Board::Move::kLeft, Board::Point(-1, 0)},
-      {Board::Move::kUpLeft, Board::Point(-1, 1)}};
-
   Agent(const Board::Player player);
   ~Agent();
 
@@ -29,18 +19,25 @@ class Agent {
   inline const Board::Player opponent() const { return opponent_; }
 
   const vector<Board::Point> OccupiedPoints(const Board& board) const;
-  const bool HasMove(const Board& board, const Board::Point& from) const;
+
+  const bool ValidMove(const Board& board, const Board::Point& point,
+                       const Board::Move& move) const;
+
+  const vector<Board::Move> ValidMoves(const Board& board,
+                                       const Board::Point& point) const;
+
   const Board::Move BestMove(const Board& board,
-                             const Board::Point& from) const;
+                             const Board::Point& point) const;
+
   const Board::Move RandomMove(const Board& board,
-                               const Board::Point& from) const;
-  void MakeMove(Board& board, const Board::Point& from,
-                const Board::Point& to) const;
+                               const Board::Point& point) const;
+
+  // void MakeMove(Board& board, const Board::Point& from,
+  //               const Board::Point& to) const;
+
+  const bool Lost(const Board& board) const;
 
  private:
-  const vector<Board::Move> ValidMoves(const Board& board,
-                                       const Board::Point& from) const;
-
   Board::Player player_;
   Board::Player opponent_;
 };

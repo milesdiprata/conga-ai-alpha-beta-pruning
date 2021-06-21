@@ -1,4 +1,5 @@
 #include <conga/agent.h>
+#include <conga/board.h>
 
 #include <iostream>
 
