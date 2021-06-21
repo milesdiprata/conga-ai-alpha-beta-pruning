@@ -4,7 +4,6 @@
 #include <conga/board.h>
 
 #include <string>
-#include <unordered_map>
 #include <vector>
 
 using namespace std;
