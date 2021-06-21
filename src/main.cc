@@ -10,6 +10,13 @@ int main(const int argc, const char* const argv[]) {
   auto player2 = conga::Agent(conga::Board::Player::k1);
 
   auto board = conga::Board();
+  board.At(1, 3) = conga::Board::Cell(conga::Board::Player::k2, 5);
+  board.At(2, 3) = conga::Board::Cell(conga::Board::Player::k2, 5);
+  board.At(2, 4) = conga::Board::Cell(conga::Board::Player::k2, 5);
+  cout << board << endl;
+
+  player1.MakeMove(board, conga::Board::Point(1, 4),
+                   conga::Board::Move::kRight);
   cout << board << endl;
 
   return 0;

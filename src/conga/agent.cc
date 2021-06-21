@@ -2,7 +2,9 @@
 #include <conga/board.h>
 
 #include <random>
+#include <sstream>
 #include <stdexcept>
+#include <string>
 
 using namespace std;
 
@@ -33,14 +35,18 @@ const vector<Board::Point> Agent::OccupiedPoints(const Board& board) const {
 }
 
 const bool Agent::ValidMove(const Board& board, const Board::Point& point,
-                            const Board::Move& move) const {
-  for (int i = 0; i < 2; ++i) {
-    auto next_point = point + ((i + 1) * Board::kMoves.at(move));
-    if (!board.HasPoint(next_point) ||
-        board.At(next_point).occupier == opponent_) {
-      return false;
-    }
+                            const Board::Move move) const {
+  if (!board.HasPoint(point) || board.At(point).occupier == opponent_ ||
+      board.At(point).num_stones <= 0) {
+    return false;
   }
+
+  auto next_point = point + Board::kMoves.at(move);
+  if (!board.HasPoint(next_point) ||
+      board.At(next_point).occupier == opponent_) {
+    return false;
+  }
+
   return true;
 }
 
@@ -55,8 +61,6 @@ const vector<Board::Move> Agent::ValidMoves(const Board& board,
 
   return valid_moves;
 }
-
-const bool Agent::Lost(const Board& board) const { return false; }
 
 const Board::Move Agent::BestMove(const Board& board,
                                   const Board::Point& from) const {
@@ -81,7 +85,52 @@ const Board::Move Agent::RandomMove(const Board& board,
   return *it;
 }
 
-// void Agent::MakeMove(Board& board, const Board::Point& from,
-//                      const Board::Point& to) const {}
+void Agent::MakeMove(Board& board, const Board::Point& point,
+                     const Board::Move move) const {
+  if (!ValidMove(board, point, move)) {
+    throw invalid_argument("Invalid move " + to_string(move) + " for " +
+                           to_string(player_) + " from position " +
+                           to_string(point) + "!");
+  }
+
+  for (int i = 1; i <= 3; ++i) {
+    auto curr_point = point + (i * Board::kMoves.at(move));
+    if (board.At(point).num_stones > 0 && board.HasPoint(curr_point) &&
+        board.At(curr_point).occupier != opponent_) {
+      board.At(curr_point).occupier = player_;
+      auto next_point = point + ((i + 1) * Board::kMoves.at(move));
+      if ((i < 3 && (!board.HasPoint(next_point) ||
+                     board.At(next_point).occupier == opponent_)) ||
+          board.At(point).num_stones < i || i == 3) {
+        board.At(curr_point).num_stones += board.At(point).num_stones;
+        board.At(point).num_stones = 0;
+        board.At(point).occupier = Board::Player::kNone;
+        break;
+      } else {
+        board.At(curr_point).num_stones += i;
+        board.At(point).num_stones -= i;
+      }
+    }
+  }
+}
+
+const bool Agent::Lost(const Board& board) const {
+  auto occupied_points = OccupiedPoints(board);
+  for (const auto& occupied_point : occupied_points) {
+    auto valid_moves = ValidMoves(board, occupied_point);
+    if (!valid_moves.empty()) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+template <typename T>
+string to_string(const T& value) {
+  stringstream sstream;
+  sstream << value;
+  return sstream.str();
+}
 
 }  // namespace conga

@@ -3,6 +3,7 @@
 
 #include <conga/board.h>
 
+#include <string>
 #include <unordered_map>
 #include <vector>
 
@@ -21,7 +22,7 @@ class Agent {
   const vector<Board::Point> OccupiedPoints(const Board& board) const;
 
   const bool ValidMove(const Board& board, const Board::Point& point,
-                       const Board::Move& move) const;
+                       const Board::Move move) const;
 
   const vector<Board::Move> ValidMoves(const Board& board,
                                        const Board::Point& point) const;
@@ -32,8 +33,8 @@ class Agent {
   const Board::Move RandomMove(const Board& board,
                                const Board::Point& point) const;
 
-  // void MakeMove(Board& board, const Board::Point& from,
-  //               const Board::Point& to) const;
+  void MakeMove(Board& board, const Board::Point& point,
+                const Board::Move move) const;
 
   const bool Lost(const Board& board) const;
 
@@ -41,6 +42,9 @@ class Agent {
   Board::Player player_;
   Board::Player opponent_;
 };
+
+template <typename T>
+string to_string(const T& value);
 
 }  // namespace conga
 
