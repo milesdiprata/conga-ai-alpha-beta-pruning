@@ -1,6 +1,8 @@
 #ifndef CONGA_BOARD_H_
 #define CONGA_BOARD_H_
 
+#include <conga/game.h>
+
 #include <iostream>
 #include <string>
 #include <unordered_map>
@@ -9,30 +11,19 @@ using namespace std;
 
 namespace conga {
 
-enum class Player {
-  kPlayer1,
-  kPlayer2,
-};
-
-enum class StoneType {
-  kBlack,
-  kWhite,
-  kNone,
-};
-
 class Board {
  public:
   struct Cell {
-    Cell(const StoneType stone_type = StoneType::kNone,
+    Cell(const Game::Player occupier = Game::Player::kNone,
          const int num_stones = 0);
     ~Cell();
 
-    inline static const string kBlackStoneColor = "\u001b[31m";
-    inline static const string kWhiteStoneColor = "\u001b[34m";
-    inline static const string kNoStoneColor = "\033[93m";
+    inline static const string kPlayer1Color = "\u001b[31m";
+    inline static const string kPlayer2Color = "\u001b[34m";
+    inline static const string kNoPlayerColor = "\033[93m";
     inline static const string kResetColor = "\033[0m";
 
-    StoneType stone_type;
+    Game::Player occupier;
     int num_stones;
   };
 
@@ -54,8 +45,8 @@ class Board {
   static constexpr int kBoardLength = 4;
   static constexpr int kInitialNumStones = 10;
 
-  inline static const Point kPlayer1Start = Point(1, 4);
-  inline static const Point kPlayer2Start = Point(4, 1);
+  inline static const auto kPlayer1Start = Point(1, 4);
+  inline static const auto kPlayer2Start = Point(4, 1);
 
   Board();
   Board(const Board& board);

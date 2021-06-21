@@ -4,16 +4,16 @@
 
 namespace conga {
 
-Board::Cell::Cell(const StoneType stone_type, const int num_stones)
-    : stone_type(stone_type), num_stones(num_stones) {}
+Board::Cell::Cell(const Game::Player occupier, const int num_stones)
+    : occupier(occupier), num_stones(num_stones) {}
 
 ostream& operator<<(ostream& os, const Board::Cell& cell) {
-  if (cell.stone_type == StoneType::kBlack) {
-    os << Board::Cell::kBlackStoneColor;
-  } else if (cell.stone_type == StoneType::kWhite) {
-    os << Board::Cell::kWhiteStoneColor;
+  if (cell.occupier == Game::Player::k1) {
+    os << Board::Cell::kPlayer1Color;
+  } else if (cell.occupier == Game::Player::k2) {
+    os << Board::Cell::kPlayer2Color;
   } else {
-    os << Board::Cell::kNoStoneColor;
+    os << Board::Cell::kNoPlayerColor;
   }
 
   if (cell.num_stones > 9) {
@@ -62,13 +62,17 @@ Board::Board(Board&& board) : board_(std::move(board.board_)) {}
 Board::Board::~Board() {}
 
 void Board::Clear() {
-  for (int i = 1; i <= kBoardLength; ++i) {
-    for (int j = 1; j <= kBoardLength; ++j) {
-      auto point = Point(i, j);
+  if (!board_.empty()) {
+    board_.clear();
+  }
+
+  for (int x = 1; x <= kBoardLength; ++x) {
+    for (int y = 1; y <= kBoardLength; ++y) {
+      auto point = Point(x, y);
       if (point == kPlayer1Start) {
-        board_[point] = Cell(StoneType::kWhite, kInitialNumStones);
+        board_[point] = Cell(Game::Player::k1, kInitialNumStones);
       } else if (point == kPlayer2Start) {
-        board_[point] = Cell(StoneType::kBlack, kInitialNumStones);
+        board_[point] = Cell(Game::Player::k2, kInitialNumStones);
       } else {
         board_[point] = Cell();
       }
