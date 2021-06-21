@@ -1,5 +1,5 @@
-#ifndef CONGA_AGENT_H_
-#define CONGA_AGENT_H_
+#ifndef CONGA_PLAYER_H_
+#define CONGA_PLAYER_H_
 
 #include <conga/board.h>
 
@@ -10,13 +10,13 @@ using namespace std;
 
 namespace conga {
 
-class Agent {
+class Player {
  public:
-  Agent(const Board::Player player);
-  ~Agent();
+  Player(const Board::PlayerId player_id);
+  ~Player();
 
-  inline const Board::Player player() const { return player_; }
-  inline const Board::Player opponent() const { return opponent_; }
+  inline const Board::PlayerId player_id() const { return player_id_; }
+  inline const Board::PlayerId opponent_id() const { return opponent_id_; }
 
   const vector<Board::Point> OccupiedPoints(const Board& board) const;
 
@@ -38,8 +38,8 @@ class Agent {
   const bool Lost(const Board& board) const;
 
  private:
-  Board::Player player_;
-  Board::Player opponent_;
+  Board::PlayerId player_id_;
+  Board::PlayerId opponent_id_;
 };
 
 template <typename T>
@@ -47,4 +47,4 @@ string to_string(const T& value);
 
 }  // namespace conga
 
-#endif  // CONGA_AGENT_H_
+#endif  // CONGA_PLAYER_H_

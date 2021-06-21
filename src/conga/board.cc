@@ -26,9 +26,9 @@ void Board::Reset() {
     for (int y = 1; y <= kBoardLength; ++y) {
       auto point = Point(x, y);
       if (point == kPlayer1Start) {
-        board_[point] = Cell(Player::k1, kInitialNumStones);
+        board_[point] = Cell(PlayerId::k1, kInitialNumStones);
       } else if (point == kPlayer2Start) {
-        board_[point] = Cell(Player::k2, kInitialNumStones);
+        board_[point] = Cell(PlayerId::k2, kInitialNumStones);
       } else {
         board_[point] = Cell();
       }
@@ -36,7 +36,7 @@ void Board::Reset() {
   }
 }
 
-Board::Cell::Cell(const Player occupier, const int num_stones)
+Board::Cell::Cell(const PlayerId occupier, const int num_stones)
     : occupier(occupier), num_stones(num_stones) {}
 
 Board::Cell::~Cell() {}
@@ -47,15 +47,15 @@ Board::Point::Point(const Point& point) : x(point.x), y(point.y) {}
 
 Board::Point::~Point() {}
 
-ostream& operator<<(ostream& os, const Board::Player player) {
-  static unordered_map<Board::Player, string> strings;
+ostream& operator<<(ostream& os, const Board::PlayerId player_id) {
+  static unordered_map<Board::PlayerId, string> strings;
   if (strings.empty()) {
-    strings[Board::Player::k1] = "Player 1";
-    strings[Board::Player::k2] = "Player 2";
-    strings[Board::Player::kNone] = "Unoccupied";
+    strings[Board::PlayerId::k1] = "Player 1";
+    strings[Board::PlayerId::k2] = "Player 2";
+    strings[Board::PlayerId::kNone] = "Unoccupied";
   }
 
-  return os << strings[player];
+  return os << strings[player_id];
 }
 
 ostream& operator<<(ostream& os, const Board::Move move) {
@@ -75,9 +75,9 @@ ostream& operator<<(ostream& os, const Board::Move move) {
 }
 
 ostream& operator<<(ostream& os, const Board::Cell& cell) {
-  if (cell.occupier == Board::Player::k1) {
+  if (cell.occupier == Board::PlayerId::k1) {
     os << Board::Cell::kPlayer1Color;
-  } else if (cell.occupier == Board::Player::k2) {
+  } else if (cell.occupier == Board::PlayerId::k2) {
     os << Board::Cell::kPlayer2Color;
   } else {
     os << Board::Cell::kNoPlayerColor;
