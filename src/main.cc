@@ -1,8 +1,11 @@
+#include <conga/board.h>
+
 #include <iostream>
 
+using namespace std;
+
 int main(const int argc, const char* const argv[]) {
-    auto words = {"Hello, ", "world!", "\n"};
-    for (const auto& word : words)
-        std::cout << word;
-    return 0;
+  auto board = conga::Board();
+  cout << board << endl;
+  return 0;
 }
