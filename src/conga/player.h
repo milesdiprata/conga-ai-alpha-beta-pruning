@@ -13,7 +13,7 @@ namespace conga {
 class Player {
  public:
   Player(const Board::PlayerId player_id);
-  ~Player();
+  virtual ~Player();
 
   inline const Board::PlayerId player_id() const { return player_id_; }
   inline const Board::PlayerId opponent_id() const { return opponent_id_; }
@@ -25,12 +25,6 @@ class Player {
 
   const vector<Board::Move> ValidMoves(const Board& board,
                                        const Board::Point& point) const;
-
-  const Board::Move BestMove(const Board& board,
-                             const Board::Point& point) const;
-
-  const Board::Move RandomMove(const Board& board,
-                               const Board::Point& point) const;
 
   void MakeMove(Board& board, const Board::Point& point,
                 const Board::Move move) const;

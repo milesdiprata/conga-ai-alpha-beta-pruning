@@ -1,7 +1,6 @@
 #include <conga/board.h>
 #include <conga/player.h>
 
-#include <random>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -41,6 +40,10 @@ const bool Player::ValidMove(const Board& board, const Board::Point& point,
     return false;
   }
 
+  if (move == Board::Move::kNone) {
+    return false;
+  }
+
   auto next_point = point + Board::kMoves.at(move);
   if (!board.HasPoint(next_point) ||
       board.At(next_point).occupier == opponent_id_) {
@@ -62,29 +65,6 @@ const vector<Board::Move> Player::ValidMoves(const Board& board,
   return valid_moves;
 }
 
-const Board::Move Player::BestMove(const Board& board,
-                                   const Board::Point& from) const {
-  return Board::Move::kNone;
-}
-
-const Board::Move Player::RandomMove(const Board& board,
-                                     const Board::Point& point) const {
-  auto valid_moves = ValidMoves(board, point);
-  if (valid_moves.empty()) {
-    return Board::Move::kNone;
-  }
-
-  static random_device rd;
-  static mt19937 gen(rd());
-
-  auto distribution = uniform_int_distribution<>(
-      0, distance(valid_moves.begin(), valid_moves.end()) - 1);
-  auto it = valid_moves.begin();
-  advance(it, distribution(gen));
-
-  return *it;
-}
-
 void Player::MakeMove(Board& board, const Board::Point& point,
                       const Board::Move move) const {
   if (!ValidMove(board, point, move)) {
@@ -92,13 +72,13 @@ void Player::MakeMove(Board& board, const Board::Point& point,
                            to_string(player_id_) + " from position " +
                            to_string(point) + "!");
   }
-
   for (int i = 1; i <= 3; ++i) {
     auto curr_point = point + (i * Board::kMoves.at(move));
     if (board.At(point).num_stones > 0 && board.HasPoint(curr_point) &&
         board.At(curr_point).occupier != opponent_id_) {
       board.At(curr_point).occupier = player_id_;
       auto next_point = point + ((i + 1) * Board::kMoves.at(move));
+
       if ((i < 3 && (!board.HasPoint(next_point) ||
                      board.At(next_point).occupier == opponent_id_)) ||
           board.At(point).num_stones < i || i == 3) {
