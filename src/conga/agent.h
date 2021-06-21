@@ -11,11 +11,8 @@ class Agent : public Player {
   Agent(const Board::PlayerId player_id);
   virtual ~Agent();
 
-  const Board::Move BestMove(const Board& board,
-                             const Board::Point& point) const;
-
-  const Board::Move RandomMove(const Board& board,
-                               const Board::Point& point) const;
+  virtual const Board::Move ComputeMove(const Board& board,
+                                        const Board::Point& point) const = 0;
 };
 
 }  // namespace conga

@@ -69,6 +69,7 @@ ostream& operator<<(ostream& os, const Board::Move move) {
     strings[Board::Move::kDownLeft] = "Down, left";
     strings[Board::Move::kLeft] = "Left";
     strings[Board::Move::kUpLeft] = "Up, left";
+    strings[Board::Move::kNone] = "None";
   }
 
   return os << strings[move];
