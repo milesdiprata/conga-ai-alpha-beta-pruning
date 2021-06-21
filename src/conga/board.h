@@ -2,6 +2,7 @@
 #define CONGA_BOARD_H_
 
 #include <iostream>
+#include <string>
 #include <unordered_map>
 
 using namespace std;
@@ -26,15 +27,19 @@ class Board {
          const int num_stones = 0);
     ~Cell();
 
+    inline static const string kBlackStoneColor = "\u001b[31m";
+    inline static const string kWhiteStoneColor = "\u001b[34m";
+    inline static const string kNoStoneColor = "\033[93m";
+    inline static const string kResetColor = "\033[0m";
+
     StoneType stone_type;
     int num_stones;
   };
 
-  class Point {
-   public:
+  struct Point {
     struct Hasher {
       const size_t operator()(const Point& point) const noexcept {
-        return hash<int>()(point.x_) ^ (hash<int>()(point.y_) << 1);
+        return hash<int>()(point.x) ^ (hash<int>()(point.y) << 1);
       }
     };
 
@@ -42,20 +47,8 @@ class Board {
     Point(const Point& point);
     ~Point();
 
-    inline int& x() { return x_; }
-    inline const int x() const { return x_; }
-
-    inline int& y() { return y_; }
-    inline const int y() const { return y_; }
-
-    friend const Point operator+(const Point& lhs, const Point& rhs);
-    friend const bool operator==(const Point& lhs, const Point& rhs);
-    friend const bool operator!=(const Point& lhs, const Point& rhs);
-    friend ostream& operator<<(ostream& os, const Point& point);
-
-   private:
-    int x_;
-    int y_;
+    int x;
+    int y;
   };
 
   static constexpr int kBoardLength = 4;
@@ -88,6 +81,10 @@ class Board {
 ostream& operator<<(ostream& os, const Board::Cell& cell);
 ostream& operator<<(ostream& os, const Board::Point& point);
 ostream& operator<<(ostream& os, const Board& board);
+
+const Board::Point operator+(const Board::Point& lhs, const Board::Point& rhs);
+const bool operator==(const Board::Point& lhs, const Board::Point& rhs);
+const bool operator!=(const Board::Point& lhs, const Board::Point& rhs);
 
 }  // namespace conga
 

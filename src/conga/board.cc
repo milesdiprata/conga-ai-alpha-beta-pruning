@@ -1,6 +1,5 @@
 #include <conga/board.h>
 
-#include <string>
 #include <utility>
 
 namespace conga {
@@ -9,41 +8,48 @@ Board::Cell::Cell(const StoneType stone_type, const int num_stones)
     : stone_type(stone_type), num_stones(num_stones) {}
 
 ostream& operator<<(ostream& os, const Board::Cell& cell) {
-  os << "(";
-  if (cell.stone_type == StoneType::kBlack)
-    os << "B";
-  else if (cell.stone_type == StoneType::kWhite)
-    os << "W";
-  else
-    os << "N";
-  os << ", " << cell.num_stones << ")";
+  if (cell.stone_type == StoneType::kBlack) {
+    os << Board::Cell::kBlackStoneColor;
+  } else if (cell.stone_type == StoneType::kWhite) {
+    os << Board::Cell::kWhiteStoneColor;
+  } else {
+    os << Board::Cell::kNoStoneColor;
+  }
+
+  if (cell.num_stones > 9) {
+    os << "> 9";
+  } else {
+    os << cell.num_stones;
+  }
+
+  os << Board::Cell::kResetColor;
 
   return os;
 }
 
 Board::Cell::~Cell() {}
 
-Board::Point::Point(const int x, const int y) : x_(x), y_(y) {}
+Board::Point::Point(const int x, const int y) : x(x), y(y) {}
 
-Board::Point::Point(const Point& point) : x_(point.x_), y_(point.y_) {}
+Board::Point::Point(const Point& point) : x(point.x), y(point.y) {}
 
 Board::Point::~Point() {}
 
 inline const Board::Point operator+(const Board::Point& lhs,
                                     const Board::Point& rhs) {
-  return Board::Point(lhs.x_ + rhs.x_, lhs.y_ + rhs.y_);
+  return Board::Point(lhs.x + rhs.x, lhs.y + rhs.y);
 }
 
 inline const bool operator==(const Board::Point& lhs, const Board::Point& rhs) {
-  return lhs.x_ == rhs.x_ && lhs.y_ == rhs.y_;
+  return lhs.x == rhs.x && lhs.y == rhs.y;
 }
 
 inline const bool operator!=(const Board::Point& lhs, const Board::Point& rhs) {
-  return lhs.x_ != rhs.x_ || lhs.y_ != rhs.y_;
+  return lhs.x != rhs.x || lhs.y != rhs.y;
 }
 
 ostream& operator<<(ostream& os, const Board::Point& point) {
-  os << "(" << point.x_ << ", " << point.y_ << ")";
+  os << "(" << point.x << ", " << point.y << ")";
   return os;
 }
 
@@ -76,7 +82,6 @@ ostream& operator<<(ostream& os, const Board& board) {
   }
   os << endl;
 
-  string seperator = "";
   for (int y = Board::kBoardLength; y > 0; --y) {
     for (int i = 0; i < Board::kBoardLength; ++i) {
       if (i == 0) {
@@ -87,25 +92,14 @@ ostream& operator<<(ostream& os, const Board& board) {
     os << endl;
 
     for (int x = 1; x <= Board::kBoardLength; ++x) {
-      Board::Cell cell = board.board_.at(Board::Point(x, y));
       os << "*";
-      if (cell.stone_type == StoneType::kBlack) {
-        os << "\u001b[31m";  // Red
-      } else if (cell.stone_type == StoneType::kWhite) {
-        os << "\u001b[34m";  // Blue
-      } else {
-        os << "\033[93m";  // Yellow
-      }
-
+      auto cell = board.board_.at(Board::Point(x, y));
       if (cell.num_stones > 9) {
-        os << " > 9 "
-           << "\033[0m";
+        os << " " << cell << " ";
       } else {
-        os << "  " << cell.num_stones << "\033[0m"
-           << "  ";
+        os << "  " << cell << "  ";
       }
     }
-
     cout << "*" << endl;
 
     for (int i = 0; i < Board::kBoardLength; ++i) {
@@ -119,6 +113,7 @@ ostream& operator<<(ostream& os, const Board& board) {
     for (int i = 0; i <= Board::kBoardLength; ++i) {
       os << "*****";
     }
+
     if (y != 1) {
       os << endl;
     }
