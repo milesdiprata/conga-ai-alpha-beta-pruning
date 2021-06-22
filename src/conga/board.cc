@@ -4,7 +4,6 @@
 #include <string>
 #include <unordered_map>
 #include <utility>
-#include <vector>
 
 using namespace std;
 
@@ -35,20 +34,6 @@ void Board::Reset() {
       }
     }
   }
-}
-
-const vector<Board::Point> Board::OccupiedPoints(
-    const StoneType stone_type) const {
-  auto occupied_points = vector<Board::Point>();
-  for (int x = 1; x <= Board::kBoardLength; ++x) {
-    for (int y = 1; y <= Board::kBoardLength; ++y) {
-      if (board_.at(Point(x, y)).stone_type == stone_type) {
-        occupied_points.push_back(Board::Point(x, y));
-      }
-    }
-  }
-
-  return occupied_points;
 }
 
 Board::Cell::Cell(const StoneType stone_type, const int num_stones)

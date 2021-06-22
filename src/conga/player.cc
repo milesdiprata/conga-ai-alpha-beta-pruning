@@ -34,6 +34,7 @@ void Player::MakeMove(Board& board, const Board::Point& point,
     if (board.At(point).num_stones > 0 && board.HasPoint(curr_point) &&
         board.At(curr_point).stone_type != opponent_stone_type_) {
       board.At(curr_point).stone_type = stone_type_;
+
       auto next_point = point + ((i + 1) * Board::kMoveDirections.at(move));
       if (i == 3 || board.At(point).num_stones < i ||
           !board.HasPoint(next_point) ||
@@ -51,7 +52,7 @@ void Player::MakeMove(Board& board, const Board::Point& point,
 }
 
 const bool Player::Lost(const Board& board) const {
-  auto occupied_points = board.OccupiedPoints(stone_type_);
+  auto occupied_points = OccupiedPoints(board, stone_type_);
   for (const auto& occupied_point : occupied_points) {
     auto valid_moves = ValidMoves(board, occupied_point);
     if (!valid_moves.empty()) {
@@ -60,6 +61,20 @@ const bool Player::Lost(const Board& board) const {
   }
 
   return false;
+}
+
+const vector<Board::Point> Player::OccupiedPoints(
+    const Board& board, const Board::StoneType stone_type) const {
+  auto occupied_points = vector<Board::Point>();
+  for (int x = 1; x <= Board::kBoardLength; ++x) {
+    for (int y = 1; y <= Board::kBoardLength; ++y) {
+      if (board.At(x, y).stone_type == stone_type) {
+        occupied_points.push_back(Board::Point(x, y));
+      }
+    }
+  }
+
+  return occupied_points;
 }
 
 const bool Player::ValidMove(const Board& board, const Board::Point& point,

@@ -26,6 +26,9 @@ class Player {
   const bool Lost(const Board& board) const;
 
  protected:
+  const vector<Board::Point> OccupiedPoints(
+      const Board& board, const Board::StoneType stone_type) const;
+
   const bool ValidMove(const Board& board, const Board::Point& point,
                        const Board::Move move) const;
 
