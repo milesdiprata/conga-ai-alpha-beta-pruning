@@ -1,6 +1,7 @@
 #include <conga/board.h>
 #include <conga/minimax_agent.h>
 
+#include <algorithm>
 #include <functional>
 
 using namespace std;
@@ -15,7 +16,15 @@ MinimaxAgent::MinimaxAgent(
 MinimaxAgent::~MinimaxAgent() {}
 
 const Agent::Action MinimaxAgent::ComputeAction(const Board& board) const {
-  return kNoAction;
+  auto valid_actions = ValidActions(board);
+  if (valid_actions.empty()) {
+    return kNoAction;
+  }
+
+  return *max_element(valid_actions.begin(), valid_actions.end(),
+                      [](const Action& a1, const Action& a2) -> const bool {
+                        return a1.value > a2.value;
+                      });
 }
 
 }  // namespace conga

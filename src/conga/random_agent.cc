@@ -13,15 +13,7 @@ RandomAgent::RandomAgent(const Board::StoneType stone_type)
 RandomAgent::~RandomAgent() {}
 
 const Agent::Action RandomAgent::ComputeAction(const Board& board) const {
-  auto valid_actions = vector<Action>();
-  auto occupied_points = OccupiedPoints(board, stone_type());
-  for (const auto& occupied_point : occupied_points) {
-    auto valid_moves = ValidMoves(board, occupied_point);
-    for (const auto& valid_move : valid_moves) {
-      valid_actions.push_back(Action(occupied_point, valid_move));
-    }
-  }
-
+  auto valid_actions = ValidActions(board);
   if (valid_actions.empty()) {
     return kNoAction;
   }
