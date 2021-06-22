@@ -17,6 +17,21 @@ Board::Board(Board&& board) : board_(move(board.board_)) {}
 
 Board::Board::~Board() {}
 
+const vector<Board::Point> Board::OccupiedPoints(
+    const StoneType stone_type) const {
+  auto occupied_points = vector<Point>();
+  for (int x = 1; x <= kBoardLength; ++x) {
+    for (int y = 1; y <= kBoardLength; ++y) {
+      auto point = Point(x, y);
+      if (board_.at(point).stone_type == stone_type) {
+        occupied_points.push_back(point);
+      }
+    }
+  }
+
+  return occupied_points;
+}
+
 void Board::Reset() {
   if (!board_.empty()) {
     board_.clear();
@@ -24,16 +39,12 @@ void Board::Reset() {
 
   for (int x = 1; x <= kBoardLength; ++x) {
     for (int y = 1; y <= kBoardLength; ++y) {
-      auto point = Point(x, y);
-      if (point == kPlayer1Start) {
-        board_[point] = Cell(StoneType::kBlack, kInitialNumStones);
-      } else if (point == kPlayer2Start) {
-        board_[point] = Cell(StoneType::kWhite, kInitialNumStones);
-      } else {
-        board_[point] = Cell();
-      }
+      board_[Point(x, y)] = Cell();
     }
   }
+
+  board_[kPlayer1Start] = Cell(StoneType::kBlack, kInitialNumStones);
+  board_[kPlayer2Start] = Cell(StoneType::kWhite, kInitialNumStones);
 }
 
 Board::Cell::Cell(const StoneType stone_type, const int num_stones)

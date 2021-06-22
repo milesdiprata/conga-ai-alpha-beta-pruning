@@ -10,15 +10,15 @@ Agent::Agent(const Board::StoneType stone_type) : Player(stone_type) {}
 
 Agent::~Agent() {}
 
-Agent::Action::Action(const Board::Point& point, const Board::Move move,
-                      const int value)
-    : point(point), move(move), value(value) {}
+Agent::Action::Action(const Board::Point& point, const Board::Move move)
+    : point(point), move(move) {}
 
 Agent::Action::~Action() {}
 
-const vector<Agent::Action> Agent::ValidActions(const Board& board) const {
+const vector<Agent::Action> Agent::ValidActions(
+    const Board& board, const Board::StoneType stone_type) {
   auto valid_actions = vector<Action>();
-  auto occupied_points = OccupiedPoints(board, stone_type());
+  auto occupied_points = board.OccupiedPoints(stone_type);
   for (const auto& occupied_point : occupied_points) {
     auto valid_moves = ValidMoves(board, occupied_point);
     for (const auto& valid_move : valid_moves) {

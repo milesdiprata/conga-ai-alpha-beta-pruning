@@ -13,7 +13,7 @@ RandomAgent::RandomAgent(const Board::StoneType stone_type)
 RandomAgent::~RandomAgent() {}
 
 const Agent::Action RandomAgent::ComputeAction(const Board& board) const {
-  auto valid_actions = ValidActions(board);
+  auto valid_actions = ValidActions(board, stone_type());
   if (valid_actions.empty()) {
     return kNoAction;
   }

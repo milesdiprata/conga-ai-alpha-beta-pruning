@@ -55,42 +55,33 @@ void Player::MakeMove(Board& board, const Board::Point& point,
 }
 
 const bool Player::Lost(const Board& board) const {
-  auto occupied_points = OccupiedPoints(board, stone_type_);
+  auto occupied_points = board.OccupiedPoints(stone_type_);
   for (const auto& occupied_point : occupied_points) {
     auto valid_moves = ValidMoves(board, occupied_point);
     if (!valid_moves.empty()) {
-      return true;
+      return false;
     }
   }
 
-  return false;
-}
-
-const vector<Board::Point> Player::OccupiedPoints(
-    const Board& board, const Board::StoneType stone_type) const {
-  auto occupied_points = vector<Board::Point>();
-  for (int x = 1; x <= Board::kBoardLength; ++x) {
-    for (int y = 1; y <= Board::kBoardLength; ++y) {
-      if (board.At(x, y).stone_type == stone_type) {
-        occupied_points.push_back(Board::Point(x, y));
-      }
-    }
-  }
-
-  return occupied_points;
+  return true;
 }
 
 const bool Player::ValidMove(const Board& board, const Board::Point& point,
-                             const Board::Move move) const {
+                             const Board::Move move) {
   if (!board.HasPoint(point) ||
-      board.At(point).stone_type == opponent_stone_type_ ||
+      board.At(point).stone_type == Board::StoneType::kNone ||
       board.At(point).num_stones <= 0 || move == Board::Move::kNone) {
     return false;
   }
 
+  auto opponent_stone_type =
+      board.At(point).stone_type == Board::StoneType::kBlack
+          ? Board::StoneType::kWhite
+          : Board::StoneType::kBlack;
+
   auto next_point = point + Board::kMoveDirections.at(move);
   if (!board.HasPoint(next_point) ||
-      board.At(next_point).stone_type == opponent_stone_type_) {
+      board.At(next_point).stone_type == opponent_stone_type) {
     return false;
   }
 
@@ -98,7 +89,7 @@ const bool Player::ValidMove(const Board& board, const Board::Point& point,
 }
 
 const vector<Board::Move> Player::ValidMoves(const Board& board,
-                                             const Board::Point& point) const {
+                                             const Board::Point& point) {
   auto valid_moves = vector<Board::Move>();
   for (const auto& [possible_move, direction] : Board::kMoveDirections) {
     if (ValidMove(board, point, possible_move)) {

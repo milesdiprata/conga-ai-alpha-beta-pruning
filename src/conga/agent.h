@@ -12,17 +12,15 @@ namespace conga {
 class Agent : public Player {
  public:
   struct Action {
-    Action(const Board::Point& point, const Board::Move move,
-           const int value = INT_MIN);
+    Action(const Board::Point& point, const Board::Move move);
     ~Action();
 
     Board::Point point;
     Board::Move move;
-    int value;
   };
 
   inline static const auto kNoAction =
-      Action(Board::kInvalidPoint, Board::Move::kNone, INT_MIN);
+      Action(Board::kInvalidPoint, Board::Move::kNone);
 
   Agent(const Board::StoneType stone_type);
   virtual ~Agent();
@@ -30,7 +28,8 @@ class Agent : public Player {
   virtual const Action ComputeAction(const Board& board) const = 0;
 
  protected:
-  const vector<Action> ValidActions(const Board& board) const;
+  static const vector<Action> ValidActions(const Board& board,
+                                           const Board::StoneType stone_type);
 };
 
 ostream& operator<<(ostream& os, const Agent::Action& action);

@@ -8,23 +8,98 @@ using namespace std;
 
 namespace conga {
 
-MinimaxAgent::MinimaxAgent(
-    const Board::StoneType player_id,
-    const function<const int(const Board& board)> f_evaluate)
-    : Agent(player_id), f_evaluate_(f_evaluate) {}
+MinimaxAgent::MinimaxAgent(const Board::StoneType player_id,
+                           const EvaluationFunction evaluation_function)
+    : Agent(player_id),
+      evaluation_function_(evaluation_function),
+      maximize_evaluation_(evaluation_function_ ==
+                                   EvaluationFunction::kMinimizeOpponentMoves
+                               ? false
+                               : true) {}
 
 MinimaxAgent::~MinimaxAgent() {}
 
 const Agent::Action MinimaxAgent::ComputeAction(const Board& board) const {
-  auto valid_actions = ValidActions(board);
-  if (valid_actions.empty()) {
-    return kNoAction;
+  int alpha = INT_MIN;
+  int beta = INT_MAX;
+  auto best_action = kNoAction;
+  cout << "A-B: "
+       << AlphaBeta(board, 3, alpha, beta, best_action, maximize_evaluation_)
+       << endl;
+
+  return best_action;
+}
+
+const int MinimaxAgent::AlphaBeta(const Board& board, const int depth,
+                                  int& alpha, int& beta, Action& best_action,
+                                  const bool maximizing) const {
+  if (depth == 0) {
+    return EvaluateState(board);
   }
 
-  return *max_element(valid_actions.begin(), valid_actions.end(),
-                      [](const Action& a1, const Action& a2) -> const bool {
-                        return a1.value > a2.value;
-                      });
+  auto actions = ValidActions(board, stone_type());
+  if (actions.empty()) {
+    return EvaluateState(board);
+  }
+
+  // for (auto a : actions) cout << a << endl;
+  // return 1;
+
+  if (maximizing) {
+    int value = INT_MIN;
+    for (const auto& action : actions) {
+      auto new_board = Board(board);
+      MakeMove(new_board, action.point, action.move);
+      int new_value =
+          AlphaBeta(new_board, depth - 1, alpha, beta, best_action, false);
+
+      if (new_value > value) {
+        value = new_value;
+        best_action = action;
+      }
+
+      alpha = max(alpha, value);
+
+      if (value >= beta) {
+        break;
+      }
+    }
+
+    return value;
+  } else {
+    int value = INT_MAX;
+    for (const auto& action : actions) {
+      auto new_board = Board(board);
+      MakeMove(new_board, action.point, action.move);
+      int new_value =
+          AlphaBeta(new_board, depth - 1, alpha, beta, best_action, true);
+
+      if (new_value < value) {
+        value = new_value;
+        best_action = action;
+      }
+
+      beta = min(beta, value);
+
+      if (value <= alpha) {
+        break;
+      }
+    }
+
+    return value;
+  }
+}
+
+const int MinimaxAgent::EvaluateState(const Board& board) const {
+  if (evaluation_function_ == EvaluationFunction::kMinimizeOpponentMoves) {
+    return NumOpponentMoves(board);
+  }
+
+  return INT_MIN;
+}
+
+const int MinimaxAgent::NumOpponentMoves(const Board& board) const {
+  return ValidActions(board, opponent_stone_type()).size();
 }
 
 }  // namespace conga

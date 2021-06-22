@@ -26,14 +26,11 @@ class Player {
   const bool Lost(const Board& board) const;
 
  protected:
-  const vector<Board::Point> OccupiedPoints(
-      const Board& board, const Board::StoneType stone_type) const;
+  static const bool ValidMove(const Board& board, const Board::Point& point,
+                              const Board::Move move);
 
-  const bool ValidMove(const Board& board, const Board::Point& point,
-                       const Board::Move move) const;
-
-  const vector<Board::Move> ValidMoves(const Board& board,
-                                       const Board::Point& point) const;
+  static const vector<Board::Move> ValidMoves(const Board& board,
+                                              const Board::Point& point);
 
  private:
   Board::StoneType stone_type_;

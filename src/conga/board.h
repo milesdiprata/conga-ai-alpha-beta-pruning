@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 using namespace std;
 
@@ -93,6 +94,8 @@ class Board {
   inline Cell& At(const int x, const int y) { return board_[Point(x, y)]; }
 
   inline Cell& At(const Point& point) { return board_[point]; }
+
+  const vector<Point> OccupiedPoints(const StoneType stone_type) const;
 
   void Reset();
 
