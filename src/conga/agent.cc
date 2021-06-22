@@ -4,7 +4,7 @@
 
 namespace conga {
 
-Agent::Agent(const Board::PlayerId player_id) : Player(player_id) {}
+Agent::Agent(const Board::StoneType stone_type) : Player(stone_type) {}
 
 Agent::~Agent() {}
 

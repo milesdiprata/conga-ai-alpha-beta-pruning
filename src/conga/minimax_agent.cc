@@ -7,7 +7,7 @@ using namespace std;
 
 namespace conga {
 
-MinimaxAgent::MinimaxAgent(const Board::PlayerId player_id,
+MinimaxAgent::MinimaxAgent(const Board::StoneType player_id,
                            const function<int(const Board& board)> f_evaluate)
     : Agent(player_id), f_evaluate_(f_evaluate) {}
 

@@ -7,7 +7,8 @@ using namespace std;
 
 namespace conga {
 
-RandomAgent::RandomAgent(const Board::PlayerId player_id) : Agent(player_id) {}
+RandomAgent::RandomAgent(const Board::StoneType stone_type)
+    : Agent(stone_type) {}
 
 RandomAgent::~RandomAgent() {}
 

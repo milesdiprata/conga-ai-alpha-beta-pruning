@@ -12,11 +12,13 @@ namespace conga {
 
 class Player {
  public:
-  Player(const Board::PlayerId player_id);
+  Player(const Board::StoneType stone_type);
   virtual ~Player();
 
-  inline const Board::PlayerId player_id() const { return player_id_; }
-  inline const Board::PlayerId opponent_id() const { return opponent_id_; }
+  inline const Board::StoneType stone_type() const { return stone_type_; }
+  inline const Board::StoneType opponent_stone_type() const {
+    return opponent_stone_type_;
+  }
 
   const vector<Board::Point> OccupiedPoints(const Board& board) const;
 
@@ -32,8 +34,8 @@ class Player {
   const bool Lost(const Board& board) const;
 
  private:
-  Board::PlayerId player_id_;
-  Board::PlayerId opponent_id_;
+  Board::StoneType stone_type_;
+  Board::StoneType opponent_stone_type_;
 };
 
 template <typename T>

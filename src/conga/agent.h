@@ -8,7 +8,7 @@ namespace conga {
 
 class Agent : public Player {
  public:
-  Agent(const Board::PlayerId player_id);
+  Agent(const Board::StoneType stone_type);
   virtual ~Agent();
 
   virtual const Board::Move ComputeMove(const Board& board,

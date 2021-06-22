@@ -8,7 +8,7 @@ namespace conga {
 
 class RandomAgent : public Agent {
  public:
-  RandomAgent(const Board::PlayerId player_id);
+  RandomAgent(const Board::StoneType stone_type);
   virtual ~RandomAgent();
 
   const Board::Move ComputeMove(const Board& board,

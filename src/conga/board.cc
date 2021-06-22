@@ -26,9 +26,9 @@ void Board::Reset() {
     for (int y = 1; y <= kBoardLength; ++y) {
       auto point = Point(x, y);
       if (point == kPlayer1Start) {
-        board_[point] = Cell(PlayerId::k1, kInitialNumStones);
+        board_[point] = Cell(StoneType::kBlack, kInitialNumStones);
       } else if (point == kPlayer2Start) {
-        board_[point] = Cell(PlayerId::k2, kInitialNumStones);
+        board_[point] = Cell(StoneType::kWhite, kInitialNumStones);
       } else {
         board_[point] = Cell();
       }
@@ -36,8 +36,8 @@ void Board::Reset() {
   }
 }
 
-Board::Cell::Cell(const PlayerId occupier, const int num_stones)
-    : occupier(occupier), num_stones(num_stones) {}
+Board::Cell::Cell(const StoneType stone_type, const int num_stones)
+    : stone_type(stone_type), num_stones(num_stones) {}
 
 Board::Cell::~Cell() {}
 
@@ -47,38 +47,42 @@ Board::Point::Point(const Point& point) : x(point.x), y(point.y) {}
 
 Board::Point::~Point() {}
 
-ostream& operator<<(ostream& os, const Board::PlayerId player_id) {
-  static unordered_map<Board::PlayerId, string> strings;
+ostream& operator<<(ostream& os, const Board::StoneType stone_type) {
+  static unordered_map<Board::StoneType, string> strings;
   if (strings.empty()) {
-    strings[Board::PlayerId::k1] = "Player 1";
-    strings[Board::PlayerId::k2] = "Player 2";
-    strings[Board::PlayerId::kNone] = "Unoccupied";
+#define INSERT_ELEMENT(p) strings[p] = #p
+    INSERT_ELEMENT(Board::StoneType::kBlack);
+    INSERT_ELEMENT(Board::StoneType::kWhite);
+    INSERT_ELEMENT(Board::StoneType::kNone);
+#undef INSERT_ELEMENT
   }
 
-  return os << strings[player_id];
+  return os << strings[stone_type];
 }
 
 ostream& operator<<(ostream& os, const Board::Move move) {
   static unordered_map<Board::Move, string> strings;
   if (strings.empty()) {
-    strings[Board::Move::kUp] = "Up";
-    strings[Board::Move::kUpRight] = "Up, right";
-    strings[Board::Move::kRight] = "Right";
-    strings[Board::Move::kDownRight] = "Down, right";
-    strings[Board::Move::kDown] = "Down";
-    strings[Board::Move::kDownLeft] = "Down, left";
-    strings[Board::Move::kLeft] = "Left";
-    strings[Board::Move::kUpLeft] = "Up, left";
-    strings[Board::Move::kNone] = "None";
+#define INSERT_ELEMENT(p) strings[p] = #p
+    INSERT_ELEMENT(Board::Move::kUp);
+    INSERT_ELEMENT(Board::Move::kUpRight);
+    INSERT_ELEMENT(Board::Move::kRight);
+    INSERT_ELEMENT(Board::Move::kDownRight);
+    INSERT_ELEMENT(Board::Move::kDown);
+    INSERT_ELEMENT(Board::Move::kDownLeft);
+    INSERT_ELEMENT(Board::Move::kLeft);
+    INSERT_ELEMENT(Board::Move::kUpLeft);
+    INSERT_ELEMENT(Board::Move::kNone);
+#undef INSERT_ELEMENT
   }
 
   return os << strings[move];
 }
 
 ostream& operator<<(ostream& os, const Board::Cell& cell) {
-  if (cell.occupier == Board::PlayerId::k1) {
+  if (cell.stone_type == Board::StoneType::kBlack) {
     os << Board::Cell::kPlayer1Color;
-  } else if (cell.occupier == Board::PlayerId::k2) {
+  } else if (cell.stone_type == Board::StoneType::kWhite) {
     os << Board::Cell::kPlayer2Color;
   } else {
     os << Board::Cell::kNoPlayerColor;

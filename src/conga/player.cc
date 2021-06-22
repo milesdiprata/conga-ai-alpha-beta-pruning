@@ -9,12 +9,13 @@ using namespace std;
 
 namespace conga {
 
-Player::Player(const Board::PlayerId player_id)
-    : player_id_(player_id),
-      opponent_id_(player_id_ == Board::PlayerId::k1 ? Board::PlayerId::k2
-                                                     : Board::PlayerId::k1) {
-  if (player_id_ == Board::PlayerId::kNone) {
-    throw invalid_argument("Invalid player ID given!");
+Player::Player(const Board::StoneType stone_type)
+    : stone_type_(stone_type),
+      opponent_stone_type_(stone_type == Board::StoneType::kBlack
+                               ? Board::StoneType::kWhite
+                               : Board::StoneType::kBlack) {
+  if (stone_type == Board::StoneType::kNone) {
+    throw invalid_argument("Invalid stone type given for player!");
   }
 }
 
@@ -24,7 +25,7 @@ const vector<Board::Point> Player::OccupiedPoints(const Board& board) const {
   auto occupied_points = vector<Board::Point>();
   for (int x = 1; x <= Board::kBoardLength; ++x) {
     for (int y = 1; y <= Board::kBoardLength; ++y) {
-      if (board.At(x, y).occupier == player_id_) {
+      if (board.At(x, y).stone_type == stone_type_) {
         occupied_points.push_back(Board::Point(x, y));
       }
     }
@@ -35,7 +36,8 @@ const vector<Board::Point> Player::OccupiedPoints(const Board& board) const {
 
 const bool Player::ValidMove(const Board& board, const Board::Point& point,
                              const Board::Move move) const {
-  if (!board.HasPoint(point) || board.At(point).occupier == opponent_id_ ||
+  if (!board.HasPoint(point) ||
+      board.At(point).stone_type == opponent_stone_type_ ||
       board.At(point).num_stones <= 0) {
     return false;
   }
@@ -46,7 +48,7 @@ const bool Player::ValidMove(const Board& board, const Board::Point& point,
 
   auto next_point = point + Board::kMoves.at(move);
   if (!board.HasPoint(next_point) ||
-      board.At(next_point).occupier == opponent_id_) {
+      board.At(next_point).stone_type == opponent_stone_type_) {
     return false;
   }
 
@@ -69,22 +71,23 @@ void Player::MakeMove(Board& board, const Board::Point& point,
                       const Board::Move move) const {
   if (!ValidMove(board, point, move)) {
     throw invalid_argument("Invalid move " + to_string(move) + " for " +
-                           to_string(player_id_) + " from position " +
+                           to_string(stone_type_) + " from position " +
                            to_string(point) + "!");
   }
   for (int i = 1; i <= 3; ++i) {
     auto curr_point = point + (i * Board::kMoves.at(move));
     if (board.At(point).num_stones > 0 && board.HasPoint(curr_point) &&
-        board.At(curr_point).occupier != opponent_id_) {
-      board.At(curr_point).occupier = player_id_;
+        board.At(curr_point).stone_type != opponent_stone_type_) {
+      board.At(curr_point).stone_type = stone_type_;
       auto next_point = point + ((i + 1) * Board::kMoves.at(move));
 
-      if ((i < 3 && (!board.HasPoint(next_point) ||
-                     board.At(next_point).occupier == opponent_id_)) ||
+      if ((i < 3 &&
+           (!board.HasPoint(next_point) ||
+            board.At(next_point).stone_type == opponent_stone_type_)) ||
           board.At(point).num_stones < i || i == 3) {
         board.At(curr_point).num_stones += board.At(point).num_stones;
         board.At(point).num_stones = 0;
-        board.At(point).occupier = Board::PlayerId::kNone;
+        board.At(point).stone_type = Board::StoneType::kNone;
         break;
       } else {
         board.At(curr_point).num_stones += i;

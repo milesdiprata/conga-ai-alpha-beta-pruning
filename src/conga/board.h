@@ -11,9 +11,9 @@ namespace conga {
 
 class Board {
  public:
-  enum class PlayerId {
-    k1,
-    k2,
+  enum class StoneType {
+    kBlack,
+    kWhite,
     kNone,
   };
 
@@ -30,7 +30,8 @@ class Board {
   };
 
   struct Cell {
-    Cell(const PlayerId occupier = PlayerId::kNone, const int num_stones = 0);
+    Cell(const StoneType stone_type = StoneType::kNone,
+         const int num_stones = 0);
     ~Cell();
 
     inline static const string kPlayer1Color = "\u001b[31m";
@@ -38,7 +39,7 @@ class Board {
     inline static const string kNoPlayerColor = "\033[93m";
     inline static const string kResetColor = "\033[0m";
 
-    PlayerId occupier;
+    StoneType stone_type;
     int num_stones;
   };
 
@@ -97,7 +98,7 @@ class Board {
   unordered_map<Point, Cell, Point::Hasher> board_;
 };
 
-ostream& operator<<(ostream& os, const Board::PlayerId player_id);
+ostream& operator<<(ostream& os, const Board::StoneType player_id);
 ostream& operator<<(ostream& os, const Board::Move move);
 ostream& operator<<(ostream& os, const Board::Cell& cell);
 ostream& operator<<(ostream& os, const Board::Point& point);

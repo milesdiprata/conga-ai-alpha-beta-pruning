@@ -12,7 +12,7 @@ namespace conga {
 
 class MinimaxAgent : public Agent {
  public:
-  MinimaxAgent(const Board::PlayerId player_id,
+  MinimaxAgent(const Board::StoneType player_id,
                const function<int(const Board& board)> f_evaluate);
   virtual ~MinimaxAgent();
 
