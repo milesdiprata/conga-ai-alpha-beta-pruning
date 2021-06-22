@@ -11,8 +11,7 @@ class RandomAgent : public Agent {
   RandomAgent(const Board::StoneType stone_type);
   virtual ~RandomAgent();
 
-  const Board::Move ComputeMove(const Board& board,
-                                const Board::Point& point) const override;
+  const Action ComputeAction(const Board& board) const override;
 };
 
 }  // namespace conga

@@ -8,12 +8,24 @@ namespace conga {
 
 class Agent : public Player {
  public:
+  struct Action {
+    Action(const Board::Point& point, const Board::Move move);
+    ~Action();
+
+    Board::Point point;
+    Board::Move move;
+  };
+
+  inline static const auto kNoAction =
+      Action(Board::kInvalidPoint, Board::Move::kNone);
+
   Agent(const Board::StoneType stone_type);
   virtual ~Agent();
 
-  virtual const Board::Move ComputeMove(const Board& board,
-                                        const Board::Point& point) const = 0;
+  virtual const Action ComputeAction(const Board& board) const = 0;
 };
+
+ostream& operator<<(ostream& os, const Agent::Action& action);
 
 }  // namespace conga
 

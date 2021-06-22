@@ -41,13 +41,16 @@ void Player::MakeMove(Board& board, const Board::Point& point,
           board.At(next_point).stone_type == opponent_stone_type_) {
         board.At(curr_point).num_stones += board.At(point).num_stones;
         board.At(point).num_stones = 0;
-        board.At(point).stone_type = Board::StoneType::kNone;
         break;
       } else {
         board.At(curr_point).num_stones += i;
         board.At(point).num_stones -= i;
       }
     }
+  }
+
+  if (board.At(point).num_stones == 0) {
+    board.At(point).stone_type = Board::StoneType::kNone;
   }
 }
 

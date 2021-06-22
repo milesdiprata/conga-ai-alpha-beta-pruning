@@ -61,6 +61,7 @@ class Board {
   static constexpr int kBoardLength = 4;
   static constexpr int kInitialNumStones = 10;
 
+  inline static const auto kInvalidPoint = Point(INT_MAX, INT_MAX);
   inline static const auto kPlayer1Start = Point(1, 4);
   inline static const auto kPlayer2Start = Point(4, 1);
 

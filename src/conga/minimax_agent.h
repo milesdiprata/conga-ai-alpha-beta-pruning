@@ -13,14 +13,13 @@ namespace conga {
 class MinimaxAgent : public Agent {
  public:
   MinimaxAgent(const Board::StoneType player_id,
-               const function<int(const Board& board)> f_evaluate);
+               const function<const int(const Board& board)> f_evaluate);
   virtual ~MinimaxAgent();
 
-  const Board::Move ComputeMove(const Board& board,
-                                const Board::Point& point) const override;
+  const Action ComputeAction(const Board& board) const override;
 
  private:
-  function<int(const Board& board)> f_evaluate_;
+  function<const int(const Board& board)> f_evaluate_;
 };
 
 }  // namespace conga
