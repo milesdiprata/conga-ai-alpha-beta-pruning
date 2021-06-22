@@ -21,7 +21,6 @@ MinimaxAgent::~MinimaxAgent() {}
 const Agent::Action MinimaxAgent::ComputeAction(const Board& board) const {
   auto best_action = kNoAction;
   AlphaBeta(board, search_depth_, INT_MIN, INT_MAX, best_action);
-
   return best_action;
 }
 
