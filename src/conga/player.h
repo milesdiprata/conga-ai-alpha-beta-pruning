@@ -20,18 +20,17 @@ class Player {
     return opponent_stone_type_;
   }
 
-  const vector<Board::Point> OccupiedPoints(const Board& board) const;
+  void MakeMove(Board& board, const Board::Point& point,
+                const Board::Move move) const;
 
+  const bool Lost(const Board& board) const;
+
+ protected:
   const bool ValidMove(const Board& board, const Board::Point& point,
                        const Board::Move move) const;
 
   const vector<Board::Move> ValidMoves(const Board& board,
                                        const Board::Point& point) const;
-
-  void MakeMove(Board& board, const Board::Point& point,
-                const Board::Move move) const;
-
-  const bool Lost(const Board& board) const;
 
  private:
   Board::StoneType stone_type_;

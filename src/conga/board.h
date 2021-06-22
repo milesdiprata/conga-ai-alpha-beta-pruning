@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 using namespace std;
 
@@ -64,7 +65,7 @@ class Board {
   inline static const auto kPlayer1Start = Point(1, 4);
   inline static const auto kPlayer2Start = Point(4, 1);
 
-  inline static const auto kMoves = unordered_map<Move, Point>{
+  inline static const auto kMoveDirections = unordered_map<Move, Point>{
       {Move::kUp, Point(0, 1)},    {Move::kUpRight, Point(1, 1)},
       {Move::kRight, Point(1, 0)}, {Move::kDownRight, Point(1, -1)},
       {Move::kDown, Point(0, -1)}, {Move::kDownLeft, Point(-1, -1)},
@@ -75,22 +76,27 @@ class Board {
   Board(Board&& board);
   ~Board();
 
-  void Reset();
-
   inline const bool HasPoint(const int x, const int y) const {
     return board_.count(Point(x, y));
   }
+
   inline const bool HasPoint(const Point& point) const {
     return board_.count(point);
   }
 
-  inline Cell& At(const int x, const int y) { return board_[Point(x, y)]; }
   inline const Cell& At(const int x, const int y) const {
     return board_.at(Point(x, y));
   }
 
-  inline Cell& At(const Point& point) { return board_[point]; }
   inline const Cell& At(const Point& point) const { return board_.at(point); }
+
+  inline Cell& At(const int x, const int y) { return board_[Point(x, y)]; }
+
+  inline Cell& At(const Point& point) { return board_[point]; }
+
+  void Reset();
+
+  const vector<Point> OccupiedPoints(const StoneType stone_type) const;
 
   friend ostream& operator<<(ostream& os, const Board& board);
 

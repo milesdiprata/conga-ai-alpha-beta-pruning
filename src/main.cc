@@ -10,9 +10,9 @@ int main(const int argc, const char* const argv[]) {
   auto player2 = conga::RandomAgent(conga::Board::StoneType::kWhite);
 
   auto board = conga::Board();
-  board.At(1, 3) = conga::Board::Cell(conga::Board::StoneType::kWhite, 5);
-  board.At(2, 3) = conga::Board::Cell(conga::Board::StoneType::kWhite, 5);
-  board.At(2, 4) = conga::Board::Cell(conga::Board::StoneType::kWhite, 5);
+  // board.At(1, 3) = conga::Board::Cell(conga::Board::StoneType::kWhite, 5);
+  // board.At(2, 3) = conga::Board::Cell(conga::Board::StoneType::kWhite, 5);
+  // board.At(2, 4) = conga::Board::Cell(conga::Board::StoneType::kWhite, 5);
   cout << board << endl;
 
   for (int i = 0; i < 100; ++i)
