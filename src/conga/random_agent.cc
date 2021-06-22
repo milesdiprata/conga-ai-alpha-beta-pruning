@@ -1,6 +1,7 @@
 #include <conga/board.h>
 #include <conga/random_agent.h>
 
+#include <iterator>
 #include <random>
 
 using namespace std;
@@ -18,14 +19,21 @@ const Agent::Action RandomAgent::ComputeAction(const Board& board) const {
     return kNoAction;
   }
 
-  static auto rand_device = random_device();
-  static auto generator = mt19937(rand_device());
-  auto distribution = uniform_int_distribution<>(
-      0, distance(valid_actions.begin(), valid_actions.end()) - 1);
-  auto it = valid_actions.begin();
-  advance(it, distribution(generator));
+  return *select_randomly(valid_actions.begin(), valid_actions.end());
+}
 
-  return *it;
+template <typename Iter, typename RandomGenerator>
+Iter select_randomly(Iter start, Iter end, RandomGenerator& g) {
+  uniform_int_distribution<> dis(0, distance(start, end) - 1);
+  advance(start, dis(g));
+  return start;
+}
+
+template <typename Iter>
+Iter select_randomly(Iter start, Iter end) {
+  static random_device rd;
+  static mt19937 gen(rd());
+  return select_randomly(start, end, gen);
 }
 
 }  // namespace conga

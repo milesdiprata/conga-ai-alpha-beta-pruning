@@ -13,20 +13,23 @@ namespace conga {
 class MinimaxAgent : public Agent {
  public:
   enum class EvaluationFunction {
-    kMinimizeOpponentMoves,
+    kMaximizePlayerMoves,
+    kPlayerMinusOpponentMoves,
   };
+
+  inline static constexpr size_t kDefaultSearchDepth = 3;
 
   MinimaxAgent(const Board::StoneType player_id,
                const EvaluationFunction evaluation_function =
-                   EvaluationFunction::kMinimizeOpponentMoves);
+                   EvaluationFunction::kMaximizePlayerMoves,
+               const size_t search_depth = kDefaultSearchDepth);
   virtual ~MinimaxAgent();
 
   const Action ComputeAction(const Board& board) const override;
 
  private:
-  const int AlphaBeta(const Board& board, const int depth, int& alpha,
-                      int& beta, Action& best_action,
-                      const bool maximizing) const;
+  const int AlphaBeta(const Board& board, const int depth, int alpha, int beta,
+                      Action& best_action, const bool maximizing = true) const;
 
   const int EvaluateState(const Board& board) const;
 
@@ -34,7 +37,7 @@ class MinimaxAgent : public Agent {
 
   EvaluationFunction evaluation_function_;
 
-  bool maximize_evaluation_;
+  size_t search_depth_;
 };
 
 }  // namespace conga
