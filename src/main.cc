@@ -9,7 +9,7 @@ using namespace std;
 int main(const int argc, const char* const argv[]) {
   auto player1 = conga::MinimaxAgent(
       conga::Board::StoneType::kBlack,
-      conga::MinimaxAgent::EvaluationFunction::kPlayerMinusOpponentMoves);
+      conga::MinimaxAgent::Evaluation::kPlayerMinusOpponentMoves);
   auto player2 = conga::RandomAgent(conga::Board::StoneType::kWhite);
 
   auto board = conga::Board();

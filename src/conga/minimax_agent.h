@@ -12,16 +12,15 @@ namespace conga {
 
 class MinimaxAgent : public Agent {
  public:
-  enum class EvaluationFunction {
-    kMaximizePlayerMoves,
+  enum class Evaluation {
+    kPlayerMoves,
     kPlayerMinusOpponentMoves,
   };
 
   inline static constexpr size_t kDefaultSearchDepth = 3;
 
   MinimaxAgent(const Board::StoneType player_id,
-               const EvaluationFunction evaluation_function =
-                   EvaluationFunction::kMaximizePlayerMoves,
+               const Evaluation evaluation = Evaluation::kPlayerMoves,
                const size_t search_depth = kDefaultSearchDepth);
   virtual ~MinimaxAgent();
 
@@ -35,7 +34,7 @@ class MinimaxAgent : public Agent {
 
   const int NumOpponentMoves(const Board& board) const;
 
-  EvaluationFunction evaluation_function_;
+  Evaluation evaluation_;
 
   size_t search_depth_;
 };

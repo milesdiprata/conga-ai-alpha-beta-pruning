@@ -10,11 +10,9 @@ using namespace std;
 namespace conga {
 
 MinimaxAgent::MinimaxAgent(const Board::StoneType player_id,
-                           const EvaluationFunction evaluation_function,
+                           const Evaluation evaluation,
                            const size_t search_depth)
-    : Agent(player_id),
-      evaluation_function_(evaluation_function),
-      search_depth_(search_depth) {}
+    : Agent(player_id), evaluation_(evaluation), search_depth_(search_depth) {}
 
 MinimaxAgent::~MinimaxAgent() {}
 
@@ -84,10 +82,9 @@ const int MinimaxAgent::AlphaBeta(const Board& board, const int depth,
 }
 
 const int MinimaxAgent::EvaluateState(const Board& board) const {
-  if (evaluation_function_ == EvaluationFunction::kMaximizePlayerMoves) {
+  if (evaluation_ == Evaluation::kPlayerMoves) {
     return ValidActions(board, stone_type()).size();
-  } else if (evaluation_function_ ==
-             EvaluationFunction::kPlayerMinusOpponentMoves) {
+  } else if (evaluation_ == Evaluation::kPlayerMinusOpponentMoves) {
     return ValidActions(board, stone_type()).size() -
            ValidActions(board, opponent_stone_type()).size();
   } else {
