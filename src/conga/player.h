@@ -24,9 +24,7 @@ class Player {
   virtual ~Player();
 
   inline const Board::StoneType stone_type() const { return stone_type_; }
-  inline const Board::StoneType opponent_stone_type() const {
-    return opponent_stone_type_;
-  }
+  inline const Board::StoneType opponent_stone_type() const { return opponent_stone_type_; }
 
   void MakeMove(Board& board, const Move& move) const;
 
@@ -35,11 +33,9 @@ class Player {
  protected:
   static const bool ValidMove(const Board& board, const Move& move);
 
-  static const vector<Board::Action> ValidActions(const Board& board,
-                                                  const Board::Point& point);
+  static const vector<Board::Action> ValidActions(const Board& board, const Board::Point& point);
 
-  static const vector<Move> ValidMoves(const Board& board,
-                                       const Board::StoneType stone_type);
+  static const vector<Move> ValidMoves(const Board& board, const Board::StoneType stone_type);
 
  private:
   Board::StoneType stone_type_;

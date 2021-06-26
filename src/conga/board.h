@@ -31,8 +31,7 @@ class Board {
   };
 
   struct Cell {
-    Cell(const StoneType stone_type = StoneType::kNone,
-         const int num_stones = 0);
+    Cell(const StoneType stone_type = StoneType::kNone, const int num_stones = 0);
     ~Cell();
 
     inline static const string kPlayer1Color = "\u001b[31m";
@@ -77,17 +76,11 @@ class Board {
   Board(Board&& board);
   ~Board();
 
-  inline const bool HasPoint(const int x, const int y) const {
-    return board_.count(Point(x, y));
-  }
+  inline const bool HasPoint(const int x, const int y) const { return board_.count(Point(x, y)); }
 
-  inline const bool HasPoint(const Point& point) const {
-    return board_.count(point);
-  }
+  inline const bool HasPoint(const Point& point) const { return board_.count(point); }
 
-  inline const Cell& At(const int x, const int y) const {
-    return board_.at(Point(x, y));
-  }
+  inline const Cell& At(const int x, const int y) const { return board_.at(Point(x, y)); }
 
   inline const Cell& At(const Point& point) const { return board_.at(point); }
 
