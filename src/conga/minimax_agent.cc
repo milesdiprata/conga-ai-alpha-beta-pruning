@@ -16,33 +16,33 @@ MinimaxAgent::MinimaxAgent(const Board::StoneType player_id,
 
 MinimaxAgent::~MinimaxAgent() {}
 
-const Agent::Action MinimaxAgent::ComputeAction(const Board& board) const {
-  auto best_action = kNoAction;
-  AlphaBeta(board, search_depth_, INT_MIN, INT_MAX, best_action);
-  return best_action;
+const Player::Move MinimaxAgent::ComputeMove(const Board& board) const {
+  auto best_move = kNoAction;
+  AlphaBeta(board, search_depth_, INT_MIN, INT_MAX, best_move);
+  return best_move;
 }
 
 const int MinimaxAgent::AlphaBeta(const Board& board, const int depth,
-                                  int alpha, int beta, Action& best_action,
+                                  int alpha, int beta, Move& best_move,
                                   const bool maximizing) const {
-  auto valid_actions = ValidActions(board, stone_type());
-  if (depth == 0 || valid_actions.empty()) {
+  auto valid_moves = ValidMoves(board, stone_type());
+  if (depth == 0 || valid_moves.empty()) {
     return EvaluateState(board);
   }
 
   if (maximizing) {
     int value = INT_MIN;
-    auto action = kNoAction;
+    auto move = kNoAction;
 
-    for (const auto& valid_action : valid_actions) {
+    for (const auto& valid_move : valid_moves) {
       auto new_board = Board(board);
-      MakeMove(new_board, valid_action.point, valid_action.move);
+      MakeMove(new_board, valid_move);
       int new_value =
-          AlphaBeta(new_board, depth - 1, alpha, beta, best_action, false);
+          AlphaBeta(new_board, depth - 1, alpha, beta, best_move, false);
 
       if (new_value > value) {
         value = new_value;
-        action = valid_action;
+        move = valid_move;
       }
 
       alpha = max(alpha, value);
@@ -52,21 +52,21 @@ const int MinimaxAgent::AlphaBeta(const Board& board, const int depth,
       }
     }
 
-    best_action = action;
+    best_move = move;
     return value;
   } else {
     int value = INT_MAX;
-    auto action = kNoAction;
+    auto move = kNoAction;
 
-    for (const auto& valid_action : valid_actions) {
+    for (const auto& valid_move : valid_moves) {
       auto new_board = Board(board);
-      MakeMove(new_board, valid_action.point, valid_action.move);
+      MakeMove(new_board, valid_move);
       int new_value =
-          AlphaBeta(new_board, depth - 1, alpha, beta, best_action, true);
+          AlphaBeta(new_board, depth - 1, alpha, beta, best_move, true);
 
       if (new_value < value) {
         value = new_value;
-        action = valid_action;
+        move = valid_move;
       }
 
       beta = min(beta, value);
@@ -76,17 +76,17 @@ const int MinimaxAgent::AlphaBeta(const Board& board, const int depth,
       }
     }
 
-    best_action = action;
+    best_move = move;
     return value;
   }
 }
 
 const int MinimaxAgent::EvaluateState(const Board& board) const {
   if (evaluation_ == Evaluation::kPlayerMoves) {
-    return ValidActions(board, stone_type()).size();
+    return ValidMoves(board, stone_type()).size();
   } else if (evaluation_ == Evaluation::kPlayerMinusOpponentMoves) {
-    return ValidActions(board, stone_type()).size() -
-           ValidActions(board, opponent_stone_type()).size();
+    return ValidMoves(board, stone_type()).size() -
+           ValidMoves(board, opponent_stone_type()).size();
   } else {
     return INT_MIN;
   }

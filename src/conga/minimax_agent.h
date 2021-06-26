@@ -24,11 +24,11 @@ class MinimaxAgent : public Agent {
                const size_t search_depth = kDefaultSearchDepth);
   virtual ~MinimaxAgent();
 
-  const Action ComputeAction(const Board& board) const override;
+  const Move ComputeMove(const Board& board) const override;
 
  private:
   const int AlphaBeta(const Board& board, const int depth, int alpha, int beta,
-                      Action& best_action, const bool maximizing = true) const;
+                      Move& best_action, const bool maximizing = true) const;
 
   const int EvaluateState(const Board& board) const;
 

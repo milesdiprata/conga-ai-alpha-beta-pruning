@@ -22,9 +22,9 @@ int main(const int argc, const char* const argv[]) {
       break;
     }
 
-    auto player1_action = player1.ComputeAction(board);
-    cout << "Player 1 action: " << player1_action << endl;
-    player1.MakeMove(board, player1_action.point, player1_action.move);
+    auto player1_move = player1.ComputeMove(board);
+    cout << "Player 1 move: " << player1_move << endl;
+    player1.MakeMove(board, player1_move);
     ++num_player1_moves;
     cout << board << endl;
 
@@ -34,9 +34,9 @@ int main(const int argc, const char* const argv[]) {
       break;
     }
 
-    auto player2_action = player2.ComputeAction(board);
-    cout << "Player 2 action: " << player2_action << endl;
-    player2.MakeMove(board, player2_action.point, player2_action.move);
+    auto player2_move = player2.ComputeMove(board);
+    cout << "Player 2 move: " << player2_move << endl;
+    player2.MakeMove(board, player2_move);
     cout << board << endl;
   }
 

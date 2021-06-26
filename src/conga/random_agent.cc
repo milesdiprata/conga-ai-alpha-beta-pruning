@@ -13,13 +13,13 @@ RandomAgent::RandomAgent(const Board::StoneType stone_type)
 
 RandomAgent::~RandomAgent() {}
 
-const Agent::Action RandomAgent::ComputeAction(const Board& board) const {
-  auto valid_actions = ValidActions(board, stone_type());
-  if (valid_actions.empty()) {
+const Agent::Move RandomAgent::ComputeMove(const Board& board) const {
+  auto valid_moves = ValidMoves(board, stone_type());
+  if (valid_moves.empty()) {
     return kNoAction;
   }
 
-  return *select_randomly(valid_actions.begin(), valid_actions.end());
+  return *select_randomly(valid_moves.begin(), valid_moves.end());
 }
 
 template <typename Iter, typename RandomGenerator>

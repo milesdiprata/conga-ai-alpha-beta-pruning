@@ -5,34 +5,21 @@
 #include <conga/player.h>
 
 #include <limits>
-#include <vector>
 
 namespace conga {
 
 class Agent : public Player {
  public:
-  struct Action {
-    Action(const Board::Point& point, const Board::Move move);
-    ~Action();
-
-    Board::Point point;
-    Board::Move move;
-  };
-
   inline static const auto kNoAction =
-      Action(Board::kInvalidPoint, Board::Move::kNone);
+      Move(Board::kInvalidPoint, Board::Action::kNone);
 
   Agent(const Board::StoneType stone_type);
   virtual ~Agent();
 
-  virtual const Action ComputeAction(const Board& board) const = 0;
-
- protected:
-  static const vector<Action> ValidActions(const Board& board,
-                                           const Board::StoneType stone_type);
+  virtual const Move ComputeMove(const Board& board) const = 0;
 };
 
-ostream& operator<<(ostream& os, const Agent::Action& action);
+ostream& operator<<(ostream& os, const Agent::Move& action);
 
 }  // namespace conga
 

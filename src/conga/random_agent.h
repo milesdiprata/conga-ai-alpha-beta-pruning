@@ -13,7 +13,7 @@ class RandomAgent : public Agent {
   RandomAgent(const Board::StoneType stone_type);
   virtual ~RandomAgent();
 
-  const Action ComputeAction(const Board& board) const override;
+  const Move ComputeMove(const Board& board) const override;
 };
 
 template <typename Iter, typename RandomGenerator>

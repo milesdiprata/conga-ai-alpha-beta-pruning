@@ -71,23 +71,23 @@ ostream& operator<<(ostream& os, const Board::StoneType stone_type) {
   return os << strings[stone_type];
 }
 
-ostream& operator<<(ostream& os, const Board::Move move) {
-  static unordered_map<Board::Move, string> strings;
+ostream& operator<<(ostream& os, const Board::Action action) {
+  static unordered_map<Board::Action, string> strings;
   if (strings.empty()) {
 #define INSERT_ELEMENT(p) strings[p] = #p
-    INSERT_ELEMENT(Board::Move::kUp);
-    INSERT_ELEMENT(Board::Move::kUpRight);
-    INSERT_ELEMENT(Board::Move::kRight);
-    INSERT_ELEMENT(Board::Move::kDownRight);
-    INSERT_ELEMENT(Board::Move::kDown);
-    INSERT_ELEMENT(Board::Move::kDownLeft);
-    INSERT_ELEMENT(Board::Move::kLeft);
-    INSERT_ELEMENT(Board::Move::kUpLeft);
-    INSERT_ELEMENT(Board::Move::kNone);
+    INSERT_ELEMENT(Board::Action::kUp);
+    INSERT_ELEMENT(Board::Action::kUpRight);
+    INSERT_ELEMENT(Board::Action::kRight);
+    INSERT_ELEMENT(Board::Action::kDownRight);
+    INSERT_ELEMENT(Board::Action::kDown);
+    INSERT_ELEMENT(Board::Action::kDownLeft);
+    INSERT_ELEMENT(Board::Action::kLeft);
+    INSERT_ELEMENT(Board::Action::kUpLeft);
+    INSERT_ELEMENT(Board::Action::kNone);
 #undef INSERT_ELEMENT
   }
 
-  return os << strings[move];
+  return os << strings[action];
 }
 
 ostream& operator<<(ostream& os, const Board::Cell& cell) {

@@ -18,7 +18,7 @@ class Board {
     kNone,
   };
 
-  enum class Move {
+  enum class Action {
     kUp,
     kUpRight,
     kRight,
@@ -66,11 +66,11 @@ class Board {
   inline static const auto kPlayer1Start = Point(1, 4);
   inline static const auto kPlayer2Start = Point(4, 1);
 
-  inline static const auto kMoveDirections = unordered_map<Move, Point>{
-      {Move::kUp, Point(0, 1)},    {Move::kUpRight, Point(1, 1)},
-      {Move::kRight, Point(1, 0)}, {Move::kDownRight, Point(1, -1)},
-      {Move::kDown, Point(0, -1)}, {Move::kDownLeft, Point(-1, -1)},
-      {Move::kLeft, Point(-1, 0)}, {Move::kUpLeft, Point(-1, 1)}};
+  inline static const auto kActionDirections = unordered_map<Action, Point>{
+      {Action::kUp, Point(0, 1)},    {Action::kUpRight, Point(1, 1)},
+      {Action::kRight, Point(1, 0)}, {Action::kDownRight, Point(1, -1)},
+      {Action::kDown, Point(0, -1)}, {Action::kDownLeft, Point(-1, -1)},
+      {Action::kLeft, Point(-1, 0)}, {Action::kUpLeft, Point(-1, 1)}};
 
   Board();
   Board(const Board& board);
@@ -106,7 +106,7 @@ class Board {
 };
 
 ostream& operator<<(ostream& os, const Board::StoneType player_id);
-ostream& operator<<(ostream& os, const Board::Move move);
+ostream& operator<<(ostream& os, const Board::Action action);
 ostream& operator<<(ostream& os, const Board::Cell& cell);
 ostream& operator<<(ostream& os, const Board::Point& point);
 ostream& operator<<(ostream& os, const Board& board);

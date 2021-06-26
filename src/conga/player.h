@@ -12,6 +12,14 @@ namespace conga {
 
 class Player {
  public:
+  struct Move {
+    Move(const Board::Point& point, const Board::Action action);
+    ~Move();
+
+    Board::Point point;
+    Board::Action action;
+  };
+
   Player(const Board::StoneType stone_type);
   virtual ~Player();
 
@@ -20,17 +28,18 @@ class Player {
     return opponent_stone_type_;
   }
 
-  void MakeMove(Board& board, const Board::Point& point,
-                const Board::Move move) const;
+  void MakeMove(Board& board, const Move& move) const;
 
   const bool Lost(const Board& board) const;
 
  protected:
-  static const bool ValidMove(const Board& board, const Board::Point& point,
-                              const Board::Move move);
+  static const bool ValidMove(const Board& board, const Move& move);
 
-  static const vector<Board::Move> ValidMoves(const Board& board,
-                                              const Board::Point& point);
+  static const vector<Board::Action> ValidActions(const Board& board,
+                                                  const Board::Point& point);
+
+  static const vector<Move> ValidMoves(const Board& board,
+                                       const Board::StoneType stone_type);
 
  private:
   Board::StoneType stone_type_;
