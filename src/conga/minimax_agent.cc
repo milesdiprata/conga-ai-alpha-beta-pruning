@@ -16,7 +16,7 @@ MinimaxAgent::MinimaxAgent(const Board::StoneType player_id, const Evaluation ev
 MinimaxAgent::~MinimaxAgent() {}
 
 const Player::Move MinimaxAgent::ComputeMove(const Board& board) const {
-  auto best_move = kNoAction;
+  auto best_move = kNoMove;
   AlphaBeta(board, search_depth_, INT_MIN, INT_MAX, best_move);
   return best_move;
 }
@@ -28,9 +28,11 @@ const int MinimaxAgent::AlphaBeta(const Board& board, const int depth, int alpha
     return EvaluateState(board);
   }
 
+  int value = 0;
+  auto move = kNoMove;
+
   if (maximizing) {
-    int value = INT_MIN;
-    auto move = kNoAction;
+    value = INT_MIN;
 
     for (const auto& valid_move : valid_moves) {
       auto new_board = Board(board);
@@ -48,12 +50,8 @@ const int MinimaxAgent::AlphaBeta(const Board& board, const int depth, int alpha
         break;
       }
     }
-
-    best_move = move;
-    return value;
   } else {
-    int value = INT_MAX;
-    auto move = kNoAction;
+    value = INT_MAX;
 
     for (const auto& valid_move : valid_moves) {
       auto new_board = Board(board);
@@ -71,10 +69,10 @@ const int MinimaxAgent::AlphaBeta(const Board& board, const int depth, int alpha
         break;
       }
     }
-
-    best_move = move;
-    return value;
   }
+
+  best_move = move;
+  return value;
 }
 
 const int MinimaxAgent::EvaluateState(const Board& board) const {

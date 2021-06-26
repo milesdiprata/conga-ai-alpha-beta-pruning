@@ -21,6 +21,11 @@ Player::Player(const Board::StoneType stone_type)
 
 Player::~Player() {}
 
+const Player::Move Player::GetMove(const Board& board) const {
+  // TODO: cin player move
+  return kNoMove;
+}
+
 void Player::MakeMove(Board& board, const Move& move) const {
   if (!ValidMove(board, move)) {
     throw invalid_argument("Invalid action " + to_string(move.action) + " for " +
@@ -101,6 +106,10 @@ Player::Move::Move(const Board::Point& point, const Board::Action action)
     : point(point), action(action) {}
 
 Player::Move::~Move() {}
+
+ostream& operator<<(ostream& os, const Player::Move& move) {
+  return os << "(" << move.point << ", " << move.action << ")";
+}
 
 template <typename T>
 string to_string(const T& value) {

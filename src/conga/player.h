@@ -20,11 +20,15 @@ class Player {
     Board::Action action;
   };
 
+  inline static const auto kNoMove = Move(Board::kInvalidPoint, Board::Action::kNone);
+
   Player(const Board::StoneType stone_type);
   virtual ~Player();
 
   inline const Board::StoneType stone_type() const { return stone_type_; }
   inline const Board::StoneType opponent_stone_type() const { return opponent_stone_type_; }
+
+  virtual const Move GetMove(const Board& board) const;
 
   void MakeMove(Board& board, const Move& move) const;
 
@@ -41,6 +45,8 @@ class Player {
   Board::StoneType stone_type_;
   Board::StoneType opponent_stone_type_;
 };
+
+ostream& operator<<(ostream& os, const Player::Move& action);
 
 template <typename T>
 string to_string(const T& value);

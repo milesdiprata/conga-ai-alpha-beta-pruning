@@ -10,16 +10,13 @@ namespace conga {
 
 class Agent : public Player {
  public:
-  inline static const auto kNoAction =
-      Move(Board::kInvalidPoint, Board::Action::kNone);
-
   Agent(const Board::StoneType stone_type);
   virtual ~Agent();
 
+  const Move GetMove(const Board& board) const final;
+
   virtual const Move ComputeMove(const Board& board) const = 0;
 };
-
-ostream& operator<<(ostream& os, const Agent::Move& action);
 
 }  // namespace conga
 

@@ -8,15 +8,14 @@ using namespace std;
 
 namespace conga {
 
-RandomAgent::RandomAgent(const Board::StoneType stone_type)
-    : Agent(stone_type) {}
+RandomAgent::RandomAgent(const Board::StoneType stone_type) : Agent(stone_type) {}
 
 RandomAgent::~RandomAgent() {}
 
 const Agent::Move RandomAgent::ComputeMove(const Board& board) const {
   auto valid_moves = ValidMoves(board, stone_type());
   if (valid_moves.empty()) {
-    return kNoAction;
+    return kNoMove;
   }
 
   return *select_randomly(valid_moves.begin(), valid_moves.end());
