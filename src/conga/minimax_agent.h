@@ -13,6 +13,7 @@ class MinimaxAgent : public Agent {
  public:
   enum class Evaluation {
     kPlayerMoves,
+    kOpponentMoves,
     kPlayerMinusOpponentMoves,
   };
 

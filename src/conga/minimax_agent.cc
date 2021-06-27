@@ -141,8 +141,11 @@ const MinimaxAgent::SearchResult MinimaxAgent::AlphaBeta(
 const int MinimaxAgent::EvaluateState(const Board& board) const {
   if (evaluation_ == Evaluation::kPlayerMoves) {
     return ValidMoves(board, stone_type()).size();
-  } else if (evaluation_ == Evaluation::kPlayerMinusOpponentMoves) {
+  } else if (evaluation_ == Evaluation::kOpponentMoves) {
     return -1 * ValidMoves(board, opponent_stone_type()).size();
+  } else if (evaluation_ == Evaluation::kPlayerMinusOpponentMoves) {
+    return ValidMoves(board, stone_type()).size() -
+           ValidMoves(board, opponent_stone_type()).size();
   } else {
     return INT_MIN;
   }
