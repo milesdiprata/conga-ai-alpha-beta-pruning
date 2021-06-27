@@ -28,22 +28,6 @@ class MinimaxAgent : public Agent {
   const Move ComputeMove(const Board& board) const override;
 
  private:
-  struct AlphaBetaResult {
-    AlphaBetaResult(const int value, const Move& move);
-    virtual ~AlphaBetaResult();
-
-    int value;
-    Move move;
-  };
-
-  struct IterDeepeningResult : public AlphaBetaResult {
-    IterDeepeningResult(const int value = 0, const Move& move = kNoMove,
-                        const bool remaining = false);
-    virtual ~IterDeepeningResult();
-
-    bool remaining;
-  };
-
   const int AlphaBeta(const Board& board, const int depth, int alpha, int beta,
                       const Board::StoneType stone_type) const;
 
