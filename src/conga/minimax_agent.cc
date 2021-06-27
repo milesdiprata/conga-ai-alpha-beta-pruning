@@ -117,17 +117,4 @@ const int MinimaxAgent::EvaluateState(const Board& board) const {
   }
 }
 
-MinimaxAgent::AlphaBetaResult::AlphaBetaResult(const int value,
-                                               const Move& move)
-    : value(value), move(move) {}
-
-MinimaxAgent::AlphaBetaResult::~AlphaBetaResult() {}
-
-MinimaxAgent::IterDeepeningResult::IterDeepeningResult(const int value,
-                                                       const Move& move,
-                                                       const bool remaining)
-    : AlphaBetaResult(value, move), remaining(remaining) {}
-
-MinimaxAgent::IterDeepeningResult::~IterDeepeningResult() {}
-
 }  // namespace conga
