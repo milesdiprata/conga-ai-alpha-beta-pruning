@@ -29,6 +29,7 @@ void Game::Play() {
     cout << *board_ << endl << endl;
 
     ++num_moves;
+    cout << "Moves: " << num_moves << endl;
 
     if (player2_->Lost(*board_)) {
       cout << "Game Over: Player 2 lost in " << num_moves << " moves." << endl;
