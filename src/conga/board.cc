@@ -17,7 +17,8 @@ Board::Board(Board&& board) : board_(move(board.board_)) {}
 
 Board::Board::~Board() {}
 
-const vector<Board::Point> Board::OccupiedPoints(const StoneType stone_type) const {
+const vector<Board::Point> Board::OccupiedPoints(
+    const StoneType stone_type) const {
   auto occupied_points = vector<Point>();
   for (int x = 1; x <= kBoardLength; ++x) {
     for (int y = 1; y <= kBoardLength; ++y) {

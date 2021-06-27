@@ -21,6 +21,8 @@ void Game::Play() {
       break;
     }
 
+    // cin.get();
+
     auto player1_move = player1_->GetMove(*board_);
     cout << "Player 1 move: " << player1_move << endl;
     player1_->MakeMove(*board_, player1_move);
@@ -32,6 +34,8 @@ void Game::Play() {
       cout << "Game Over: Player 2 lost in " << num_moves << " moves." << endl;
       break;
     }
+
+    // cin.get();
 
     auto player2_move = player2_->GetMove(*board_);
     cout << "Player 2 move: " << player2_move << endl;

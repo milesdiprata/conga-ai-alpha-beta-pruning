@@ -20,13 +20,16 @@ class Player {
     Board::Action action;
   };
 
-  inline static const auto kNoMove = Move(Board::kInvalidPoint, Board::Action::kNone);
+  inline static const auto kNoMove =
+      Move(Board::kInvalidPoint, Board::Action::kNone);
 
   Player(const Board::StoneType stone_type);
   virtual ~Player();
 
   inline const Board::StoneType stone_type() const { return stone_type_; }
-  inline const Board::StoneType opponent_stone_type() const { return opponent_stone_type_; }
+  inline const Board::StoneType opponent_stone_type() const {
+    return opponent_stone_type_;
+  }
 
   virtual const Move GetMove(const Board& board) const;
 
@@ -35,11 +38,16 @@ class Player {
   const bool Lost(const Board& board) const;
 
  protected:
+  // static const Board::StoneType ComplementStoneType(
+  //     const Board::StoneType stone_type);
+
   static const bool ValidMove(const Board& board, const Move& move);
 
-  static const vector<Board::Action> ValidActions(const Board& board, const Board::Point& point);
+  static const vector<Board::Action> ValidActions(const Board& board,
+                                                  const Board::Point& point);
 
-  static const vector<Move> ValidMoves(const Board& board, const Board::StoneType stone_type);
+  static const vector<Move> ValidMoves(const Board& board,
+                                       const Board::StoneType stone_type);
 
  private:
   Board::StoneType stone_type_;
