@@ -22,7 +22,7 @@ const std::vector<Point> Board::Points(const Stone& stone) const {
   for (int x = 1; x <= kBoardLength; ++x) {
     for (int y = 1; y <= kBoardLength; ++y) {
       auto point = Point(x, y);
-      auto& square = squares_[TransformPoint(point)];
+      auto& square = (*this)[point];
       if (square.stone && square.stone == stone) {
         points.push_back(point);
       }
@@ -37,10 +37,8 @@ void Board::Reset() {
     square = Square();
   }
 
-  squares_[TransformPoint(kPlayer1Start)] =
-      Square(Stone::kBlack, kInitialNumStones);
-  squares_[TransformPoint(kPlayer2Start)] =
-      Square(Stone::kWhite, kInitialNumStones);
+  (*this)[kPlayer1Start] = Square(Stone::kBlack, kInitialNumStones);
+  (*this)[kPlayer2Start] = Square(Stone::kWhite, kInitialNumStones);
 }
 
 void Board::MakeMove(const Move& move) {
@@ -70,7 +68,6 @@ void Board::MakeMove(const Move& move) {
     if (i == 3 || cell.num_stones < i || !ValidPoint(next_point) ||
         (next_cell.stone && next_cell.stone != cell.stone)) {
       curr_cell.num_stones += cell.num_stones;
-      std::cout << cell.num_stones << "\n";
       cell.num_stones = 0;
     } else {
       curr_cell.num_stones += i;

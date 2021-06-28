@@ -26,11 +26,11 @@ class Board {
   ~Board();
 
   inline Square& operator[](const Point& point) {
-    return squares_[TransformPoint(point)];
+    return squares_[FlattenPoint(point)];
   }
 
   inline const Square& operator[](const Point& point) const {
-    return squares_[TransformPoint(point)];
+    return squares_[FlattenPoint(point)];
   }
 
   const std::vector<Point> Points(const Stone& stone) const;
@@ -42,7 +42,7 @@ class Board {
   friend std::ostream& operator<<(std::ostream& os, const Board& board);
 
  private:
-  inline static const std::size_t TransformPoint(const Point& point) {
+  inline static const std::size_t FlattenPoint(const Point& point) {
     return (point.y - 1) * kBoardLength + (point.x - 1);
   }
 
