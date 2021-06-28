@@ -86,7 +86,7 @@ inline const bool MinimaxAgent::CutoffTest(const std::size_t depth,
 
 const int MinimaxAgent::EvaluateState(const Board& board) const {
   if (evaluation_ == Evaluation::kPlayerMoves) {
-    return board.ValidMoves(stone()).size();
+    return kPlayerMovesWeight * board.ValidMoves(stone()).size();
   } else if (evaluation_ == Evaluation::kOpponentMoves) {
     return kOpponentMovesWeight * board.ValidMoves(opponent_stone()).size();
   } else if (evaluation_ == Evaluation::kPlayerMinusOpponentMoves) {
