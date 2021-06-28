@@ -10,6 +10,7 @@ namespace conga {
 struct Move {
   constexpr Move(const Point& point, const Point& direction)
       : point(point), direction(direction) {}
+
   constexpr Move(const Move& move)
       : point(move.point), direction(move.direction) {}
 

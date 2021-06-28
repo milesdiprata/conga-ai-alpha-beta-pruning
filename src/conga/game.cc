@@ -29,7 +29,6 @@ void Game::Play() {
 
     auto player1_move = player1_->GetMove(*board_);
     board_->MakeMove(player1_move);
-    // cin.get();
     std::cout << *board_ << std::endl << std::endl;
     std::cout << "Player 1 move: " << player1_move << std::endl;
 
@@ -44,7 +43,6 @@ void Game::Play() {
 
     auto player2_move = player2_->GetMove(*board_);
     board_->MakeMove(player2_move);
-    // cin.get();
     std::cout << *board_ << std::endl << std::endl;
     std::cout << "Player 2 move: " << player2_move << std::endl;
   }

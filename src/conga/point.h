@@ -2,7 +2,6 @@
 #define CONGA_POINT_H_
 
 #include <array>
-#include <cstdlib>
 #include <iostream>
 #include <limits>
 
@@ -23,7 +22,7 @@ static constexpr auto kInvalid =
 
 namespace direction {
 
-static constexpr std::size_t kNumDirections = 8;
+static constexpr int kNumDirections = 8;
 
 static constexpr auto kUp = Point(0, 1);
 static constexpr auto kUpRight = Point(1, 1);
@@ -39,7 +38,6 @@ static constexpr auto kDirections = std::array<Point, kNumDirections>{
 };
 
 }  // namespace direction
-
 }  // namespace point
 
 constexpr Point operator+(const Point& lhs, const Point& rhs) {

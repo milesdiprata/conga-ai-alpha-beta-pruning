@@ -5,7 +5,7 @@
 
 namespace conga {
 
-Square::Square(const std::optional<Stone>& stone, const std::size_t num_stones)
+Square::Square(const std::optional<Stone>& stone, const int num_stones)
     : stone(stone), num_stones(num_stones) {}
 
 Square::Square(const Square& square)
