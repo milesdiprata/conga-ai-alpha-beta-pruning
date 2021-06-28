@@ -21,12 +21,11 @@ void Game::Play() {
       break;
     }
 
-    // cin.get();
-
     auto player1_move = player1_->GetMove(*board_);
-    cout << "Player 1 move: " << player1_move << endl;
     player1_->MakeMove(*board_, player1_move);
+    // cin.get();
     cout << *board_ << endl << endl;
+    cout << "Player 1 move: " << player1_move << endl;
 
     ++num_moves;
     cout << "Moves: " << num_moves << endl;
@@ -36,12 +35,11 @@ void Game::Play() {
       break;
     }
 
-    // cin.get();
-
     auto player2_move = player2_->GetMove(*board_);
-    cout << "Player 2 move: " << player2_move << endl;
     player2_->MakeMove(*board_, player2_move);
+    // cin.get();
     cout << *board_ << endl << endl;
+    cout << "Player 2 move: " << player2_move << endl;
   }
 }
 

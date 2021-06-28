@@ -38,9 +38,6 @@ class Player {
   const bool Lost(const Board& board) const;
 
  protected:
-  // static const Board::StoneType ComplementStoneType(
-  //     const Board::StoneType stone_type);
-
   static const bool ValidMove(const Board& board, const Move& move);
 
   static const vector<Board::Action> ValidActions(const Board& board,

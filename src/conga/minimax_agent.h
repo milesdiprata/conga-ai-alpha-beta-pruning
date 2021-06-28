@@ -15,9 +15,10 @@ class MinimaxAgent : public Agent {
     kPlayerMoves,
     kOpponentMoves,
     kPlayerMinusOpponentMoves,
+    kTest,
   };
 
-  inline static constexpr int kDefaultSearchDepth = 3;
+  inline static constexpr int kDefaultSearchDepth = 4;
 
   inline static constexpr double kSearchTimeLimitSecs = 1.0;
 
@@ -30,11 +31,12 @@ class MinimaxAgent : public Agent {
 
  private:
   struct SearchResult {
-    inline SearchResult(const int value, const bool remaining)
-        : value(value), remaining(remaining) {}
+    inline SearchResult(const int value, const Move& move, const bool remaining)
+        : value(value), move(move), remaining(remaining) {}
     inline ~SearchResult() {}
 
     int value;
+    Move move;
     bool remaining;
   };
 
@@ -43,9 +45,7 @@ class MinimaxAgent : public Agent {
                                      const time_t& start_time) const;
 
   const SearchResult AlphaBeta(const Board& board, const int depth, int alpha,
-                               int beta, const Board::StoneType stone_type,
-                               const time_t& start_time,
-                               bool& time_cutoff) const;
+                               int beta, const bool maximizing = true) const;
 
   const int EvaluateState(const Board& board) const;
 
