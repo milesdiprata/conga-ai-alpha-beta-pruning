@@ -1,15 +1,17 @@
-// #include <conga/agent.h>
-// #include <conga/board.h>
-// #include <conga/player.h>
+#include <conga/agent.h>
+#include <conga/board.h>
+#include <conga/move.h>
+#include <conga/player.h>
+#include <conga/stone.h>
 
-// namespace conga {
+namespace conga {
 
-// Agent::Agent(const Board::StoneType stone_type) : Player(stone_type) {}
+Agent::Agent(const Stone& stone) : Player(stone) {}
 
-// Agent::~Agent() {}
+Agent::~Agent() {}
 
-// const Player::Move Agent::GetMove(const Board& board) const {
-//   return ComputeMove(board);
-// }
+const Move Agent::GetMove(const Board& board) const {
+  return ComputeMove(board);
+}
 
-// }  // namespace conga
+}  // namespace conga

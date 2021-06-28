@@ -17,8 +17,8 @@ class Board {
   static constexpr int kBoardLength = 4;
   static constexpr int kInitialNumStones = 10;
 
-  inline static const auto kPlayer1Start = Point(1, 4);
-  inline static const auto kPlayer2Start = Point(4, 1);
+  static constexpr auto kPlayer1Start = Point(1, 4);
+  static constexpr auto kPlayer2Start = Point(4, 1);
 
   Board();
   Board(const Board& board);
@@ -34,6 +34,10 @@ class Board {
   }
 
   const std::vector<Point> Points(const Stone& stone) const;
+
+  const std::vector<Move> ValidMoves(const Stone& stone) const;
+
+  const bool Lost(const Stone& stone) const;
 
   void Reset();
 

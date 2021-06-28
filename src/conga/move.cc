@@ -1,13 +1,12 @@
 #include <conga/move.h>
 #include <conga/point.h>
 
+#include <iostream>
+
 namespace conga {
 
-Move::Move(const Point& point, const Point& direction)
-    : point(point), direction(direction) {}
-
-Move::Move(const Move& move) : point(move.point), direction(move.direction) {}
-
-Move::~Move() {}
+std::ostream& operator<<(std::ostream& os, const Move& move) {
+  return os << "(" << move.point << ", " << move.direction << ")";
+}
 
 }  // namespace conga

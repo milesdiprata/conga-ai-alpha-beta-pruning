@@ -1,53 +1,26 @@
-// #ifndef CONGA_PLAYER_H_
-// #define CONGA_PLAYER_H_
+#ifndef CONGA_PLAYER_H_
+#define CONGA_PLAYER_H_
 
-// #include <conga/board.h>
+#include <conga/board.h>
+#include <conga/stone.h>
 
-// #include <string>
-// #include <vector>
+namespace conga {
 
-// using namespace std;
+class Player {
+ public:
+  Player(const Stone& stone);
+  virtual ~Player();
 
-// namespace conga {
+  inline const Stone& stone() const { return stone_; }
+  inline const Stone& opponent_stone() const { return opponent_stone_; }
 
-// class Player {
-//  public:
-//     inline static const auto kNoMove =
-//       Move(Board::kInvalidPoint, Board::Action::kNone);
+  virtual const Move GetMove(const Board& board) const;
 
-//   Player(const Board::StoneType stone_type);
-//   virtual ~Player();
+ private:
+  Stone stone_;
+  Stone opponent_stone_;
+};
 
-//   inline const Board::StoneType stone_type() const { return stone_type_; }
-//   inline const Board::StoneType opponent_stone_type() const {
-//     return opponent_stone_type_;
-//   }
+}  // namespace conga
 
-//   virtual const Move GetMove(const Board& board) const;
-
-//   void MakeMove(Board& board, const Move& move) const;
-
-//   const bool Lost(const Board& board) const;
-
-//  protected:
-//   static const bool ValidMove(const Board& board, const Move& move);
-
-//   static const vector<Board::Action> ValidActions(const Board& board,
-//                                                   const Board::Point& point);
-
-//   static const vector<Move> ValidMoves(const Board& board,
-//                                        const Board::StoneType stone_type);
-
-//  private:
-//   Board::StoneType stone_type_;
-//   Board::StoneType opponent_stone_type_;
-// };
-
-// ostream& operator<<(ostream& os, const Player::Move& action);
-
-// template <typename T>
-// string to_string(const T& value);
-
-// }  // namespace conga
-
-// #endif  // CONGA_PLAYER_H_
+#endif  // CONGA_PLAYER_H_

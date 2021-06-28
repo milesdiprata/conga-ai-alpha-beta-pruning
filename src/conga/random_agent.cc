@@ -1,41 +1,34 @@
-// #include <conga/board.h>
-// #include <conga/random_agent.h>
+#include <conga/agent.h>
+#include <conga/board.h>
+#include <conga/move.h>
+#include <conga/random_agent.h>
+#include <conga/stone.h>
 
-// #include <iterator>
-// #include <random>
+#include <iterator>
+#include <random>
 
-// using namespace std;
+namespace conga {
 
-// namespace conga {
+RandomAgent::RandomAgent(const Stone& stone) : Agent(stone) {}
 
-// RandomAgent::RandomAgent(const Board::StoneType stone_type)
-//     : Agent(stone_type) {
-//   srand(time(NULL));
-// }
+RandomAgent::~RandomAgent() {}
 
-// RandomAgent::~RandomAgent() {}
+const Move RandomAgent::ComputeMove(const Board& board) const {
+  auto valid_moves = board.ValidMoves(stone());
+  if (valid_moves.empty()) {
+    return move::kNoMove;
+  }
 
-// const Agent::Move RandomAgent::ComputeMove(const Board& board) const {
-//   auto valid_moves = ValidMoves(board, stone_type());
-//   if (valid_moves.empty()) {
-//     return kNoMove;
-//   }
+  static auto random_device = std::random_device();
+  static auto generator = std::mt19937(random_device());
 
-//   return *select_randomly(valid_moves.begin(), valid_moves.end());
-// }
+  auto distribution = std::uniform_int_distribution<>(
+      0, std::distance(valid_moves.begin(), valid_moves.end()) - 1);
 
-// template <typename Iter, typename RandomGenerator>
-// Iter select_randomly(Iter start, Iter end, RandomGenerator& g) {
-//   uniform_int_distribution<> dis(0, distance(start, end) - 1);
-//   advance(start, dis(g));
-//   return start;
-// }
+  auto it = valid_moves.begin();
+  std::advance(it, distribution(generator));
 
-// template <typename Iter>
-// Iter select_randomly(Iter start, Iter end) {
-//   static random_device rd;
-//   static mt19937 gen(rd());
-//   return select_randomly(start, end, gen);
-// }
+  return *it;
+}
 
-// }  // namespace conga
+}  // namespace conga

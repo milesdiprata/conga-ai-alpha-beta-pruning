@@ -13,7 +13,7 @@ Board::Board() { Reset(); }
 
 Board::Board(const Board& board) : squares_(board.squares_) {}
 
-Board::Board(Board&& board) : squares_(move(board.squares_)) {}
+Board::Board(Board&& board) : squares_(std::move(board.squares_)) {}
 
 Board::Board::~Board() {}
 
@@ -30,6 +30,34 @@ const std::vector<Point> Board::Points(const Stone& stone) const {
   }
 
   return points;
+}
+
+const std::vector<Move> Board::ValidMoves(const Stone& stone) const {
+  auto valid_moves = std::vector<Move>();
+  auto points = Points(stone);
+  for (const auto& point : points) {
+    for (const auto& direction : point::direction::kDirections) {
+      auto move = Move(point, direction);
+      if (ValidMove(move)) {
+        valid_moves.push_back(move);
+      }
+    }
+  }
+
+  return valid_moves;
+}
+
+const bool Board::Lost(const Stone& stone) const {
+  auto points = Points(stone);
+  for (const auto& point : points) {
+    for (const auto& direction : point::direction::kDirections) {
+      if (ValidMove(Move(point, direction))) {
+        return false;
+      }
+    }
+  }
+
+  return true;
 }
 
 void Board::Reset() {

@@ -16,18 +16,18 @@ int main(const int argc, const char* const argv[]) {
   auto board = Board();
   cout << board << endl;
 
-  board.MakeMove(Move(Point(1, 4), conga::direction::kRight));
+  board.MakeMove(Move(Point(1, 4), point::direction::kRight));
   cout << board << endl;
 
-  board.MakeMove(Move(Point(2, 4), conga::direction::kDown));
-  board.MakeMove(Move(Point(3, 4), conga::direction::kDown));
-  board.MakeMove(Move(Point(4, 4), conga::direction::kDown));
+  board.MakeMove(Move(Point(2, 4), point::direction::kDown));
+  board.MakeMove(Move(Point(3, 4), point::direction::kDown));
+  board.MakeMove(Move(Point(4, 4), point::direction::kDown));
   cout << board << endl;
 
-  board.MakeMove(Move(Point(4, 2), conga::direction::kDownLeft));
+  board.MakeMove(Move(Point(4, 2), point::direction::kDownLeft));
   cout << board << endl;
 
-  board.MakeMove(Move(Point(3, 1), conga::direction::kUp));
+  board.MakeMove(Move(Point(3, 1), point::direction::kUp));
   cout << board << endl;
 
   // auto game = conga::Game(&board, &player1, &player2);

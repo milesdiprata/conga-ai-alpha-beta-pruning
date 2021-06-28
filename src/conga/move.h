@@ -3,16 +3,28 @@
 
 #include <conga/point.h>
 
+#include <iostream>
+
 namespace conga {
 
 struct Move {
-  Move(const Point& point, const Point& direction);
-  Move(const Move& move);
-  ~Move();
+  constexpr Move(const Point& point, const Point& direction)
+      : point(point), direction(direction) {}
+  constexpr Move(const Move& move)
+      : point(move.point), direction(move.direction) {}
 
   Point point;
   Point direction;
 };
+
+namespace move {
+
+static constexpr auto kNoMove =
+    Move(point::kInvalidPoint, point::kInvalidPoint);
+
+}  // namespace move
+
+std::ostream& operator<<(std::ostream& os, const Move& move);
 
 }  // namespace conga
 
