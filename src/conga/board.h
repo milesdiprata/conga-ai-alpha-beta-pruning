@@ -1,122 +1,56 @@
 #ifndef CONGA_BOARD_H_
 #define CONGA_BOARD_H_
 
-#include <iostream>
-#include <string>
-#include <unordered_map>
-#include <vector>
+#include <conga/point.h>
+#include <conga/square.h>
 
-using namespace std;
+#include <array>
+#include <iostream>
+#include <vector>
 
 namespace conga {
 
 class Board {
  public:
-  enum class StoneType {
-    kBlack,
-    kWhite,
-    kNone,
-  };
-
-  enum class Action {
-    kUp,
-    kUpRight,
-    kRight,
-    kDownRight,
-    kDown,
-    kDownLeft,
-    kLeft,
-    kUpLeft,
-    kNone,
-  };
-
-  struct Cell {
-    Cell(const StoneType stone_type = StoneType::kNone,
-         const int num_stones = 0);
-    ~Cell();
-
-    inline static const string kPlayer1Color = "\u001b[31m";
-    inline static const string kPlayer2Color = "\u001b[34m";
-    inline static const string kNoPlayerColor = "\033[93m";
-    inline static const string kResetColor = "\033[0m";
-
-    StoneType stone_type;
-    int num_stones;
-  };
-
-  struct Point {
-    struct Hasher {
-      const size_t operator()(const Point& point) const noexcept {
-        return hash<int>()(point.x) ^ (hash<int>()(point.y) << 1);
-      }
-    };
-
-    Point(const int x = 0, const int y = 0);
-    Point(const Point& point);
-    ~Point();
-
-    int x;
-    int y;
-  };
-
   static constexpr int kBoardLength = 4;
   static constexpr int kInitialNumStones = 10;
 
-  inline static const auto kInvalidPoint = Point(INT_MAX, INT_MAX);
   inline static const auto kPlayer1Start = Point(1, 4);
   inline static const auto kPlayer2Start = Point(4, 1);
-
-  inline static const auto kActionDirections = unordered_map<Action, Point>{
-      {Action::kUp, Point(0, 1)},    {Action::kUpRight, Point(1, 1)},
-      {Action::kRight, Point(1, 0)}, {Action::kDownRight, Point(1, -1)},
-      {Action::kDown, Point(0, -1)}, {Action::kDownLeft, Point(-1, -1)},
-      {Action::kLeft, Point(-1, 0)}, {Action::kUpLeft, Point(-1, 1)}};
 
   Board();
   Board(const Board& board);
   Board(Board&& board);
   ~Board();
 
-  inline const bool HasPoint(const int x, const int y) const {
-    return board_.count(Point(x, y));
+  inline Square& operator[](const Point& point) {
+    return squares_[TransformPoint(point)];
   }
 
-  inline const bool HasPoint(const Point& point) const {
-    return board_.count(point);
+  inline const Square& operator[](const Point& point) const {
+    return squares_[TransformPoint(point)];
   }
 
-  inline const Cell& At(const int x, const int y) const {
-    return board_.at(Point(x, y));
-  }
-
-  inline const Cell& At(const Point& point) const { return board_.at(point); }
-
-  inline Cell& At(const int x, const int y) { return board_[Point(x, y)]; }
-
-  inline Cell& At(const Point& point) { return board_[point]; }
-
-  const vector<Point> OccupiedPoints(const StoneType stone_type) const;
+  const std::vector<Point> Points(const Square::State state) const;
 
   void Reset();
 
-  friend ostream& operator<<(ostream& os, const Board& board);
+  friend std::ostream& operator<<(std::ostream& os, const Board& board);
 
  private:
-  unordered_map<Point, Cell, Point::Hasher> board_;
+  inline static const std::size_t TransformPoint(const Point& point) {
+    return (point.y - 1) * kBoardLength + (point.x - 1);
+  }
+
+  inline static const bool ValidPoint(const Point& point) {
+    return point.x >= 1 && point.y >= 1 && point.x <= kBoardLength &&
+           point.y <= kBoardLength;
+  }
+
+  std::array<Square, kBoardLength * kBoardLength> squares_;
 };
 
-ostream& operator<<(ostream& os, const Board::StoneType player_id);
-ostream& operator<<(ostream& os, const Board::Action action);
-ostream& operator<<(ostream& os, const Board::Cell& cell);
-ostream& operator<<(ostream& os, const Board::Point& point);
-ostream& operator<<(ostream& os, const Board& board);
-
-const Board::Point operator+(const Board::Point& lhs, const Board::Point& rhs);
-const Board::Point operator*(const Board::Point& lhs, const int rhs);
-const Board::Point operator*(const int lhs, const Board::Point& rhs);
-
-const bool operator==(const Board::Point& lhs, const Board::Point& rhs);
-const bool operator!=(const Board::Point& lhs, const Board::Point& rhs);
+std::ostream& operator<<(std::ostream& os, const Board& board);
 
 }  // namespace conga
 

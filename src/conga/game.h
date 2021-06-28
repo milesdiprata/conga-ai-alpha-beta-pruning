@@ -1,23 +1,23 @@
-#ifndef CONGA_GAME_H_
-#define CONGA_GAME_H_
+// #ifndef CONGA_GAME_H_
+// #define CONGA_GAME_H_
 
-#include <conga/board.h>
-#include <conga/player.h>
+// #include <conga/board.h>
+// #include <conga/player.h>
 
-namespace conga {
-class Game {
- public:
-  Game(Board* board, Player* player1, Player* player2);
-  ~Game();
+// namespace conga {
+// class Game {
+//  public:
+//   Game(Board* board, Player* player1, Player* player2);
+//   ~Game();
 
-  void Play();
+//   void Play();
 
- private:
-  Board* board_;
-  Player* player1_;
-  Player* player2_;
-};
+//  private:
+//   Board* board_;
+//   Player* player1_;
+//   Player* player2_;
+// };
 
-}  // namespace conga
+// }  // namespace conga
 
-#endif  // CONGA_GAME_H_
+// #endif  // CONGA_GAME_H_

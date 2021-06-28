@@ -1,27 +1,27 @@
-#ifndef CONGA_RANDOM_AGENT_H_
-#define CONGA_RANDOM_AGENT_H_
+// #ifndef CONGA_RANDOM_AGENT_H_
+// #define CONGA_RANDOM_AGENT_H_
 
-#include <conga/agent.h>
-#include <conga/board.h>
+// #include <conga/agent.h>
+// #include <conga/board.h>
 
-#include <random>
+// #include <random>
 
-namespace conga {
+// namespace conga {
 
-class RandomAgent : public Agent {
- public:
-  RandomAgent(const Board::StoneType stone_type);
-  virtual ~RandomAgent();
+// class RandomAgent : public Agent {
+//  public:
+//   RandomAgent(const Board::StoneType stone_type);
+//   virtual ~RandomAgent();
 
-  const Move ComputeMove(const Board& board) const override;
-};
+//   const Move ComputeMove(const Board& board) const override;
+// };
 
-template <typename Iter, typename RandomGenerator>
-Iter select_randomly(Iter start, Iter end, RandomGenerator& g);
+// template <typename Iter, typename RandomGenerator>
+// Iter select_randomly(Iter start, Iter end, RandomGenerator& g);
 
-template <typename Iter>
-Iter select_randomly(Iter start, Iter end);
+// template <typename Iter>
+// Iter select_randomly(Iter start, Iter end);
 
-}  // namespace conga
+// }  // namespace conga
 
-#endif  // CONGA_RANDOM_AGENT_H_
+// #endif  // CONGA_RANDOM_AGENT_H_
