@@ -5,6 +5,8 @@
 #include <conga/board.h>
 #include <time.h>
 
+#include <vector>
+
 using namespace std;
 
 namespace conga {
@@ -15,10 +17,9 @@ class MinimaxAgent : public Agent {
     kPlayerMoves,
     kOpponentMoves,
     kPlayerMinusOpponentMoves,
-    kTest,
   };
 
-  inline static constexpr int kDefaultSearchDepth = 4;
+  inline static constexpr int kDefaultSearchDepth = 3;
 
   inline static constexpr double kSearchTimeLimitSecs = 1.0;
 
@@ -39,6 +40,16 @@ class MinimaxAgent : public Agent {
     Move move;
     bool remaining;
   };
+
+  const Move AlphaBetaSearch(const Board& board) const;
+
+  const int MaxValue(const Board& board, const int depth, int alpha,
+                     int beta) const;
+
+  const int MinValue(const Board& board, const int depth, int alpha,
+                     int beta) const;
+
+  static const bool CutoffTest(const int depth, const vector<Move>& moves);
 
   const int IterativeDeepeningSearch(const Board& board,
                                      const Board::StoneType stone_type,

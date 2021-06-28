@@ -65,17 +65,6 @@ const bool Player::Lost(const Board& board) const {
   return ValidMoves(board, stone_type_).empty();
 }
 
-// inline static const Board::StoneType ComplementStoneType(
-//     const Board::StoneType stone_type) {
-//   if (stone_type == Board::StoneType::kBlack) {
-//     return Board::StoneType::kWhite;
-//   } else if (stone_type == Board::StoneType::kWhite) {
-//     return Board::StoneType::kBlack;
-//   } else {
-//     throw invalid_argument("Invalid stone type given!");
-//   }
-// }
-
 const bool Player::ValidMove(const Board& board, const Move& move) {
   if (!board.HasPoint(move.point) ||
       board.At(move.point).stone_type == Board::StoneType::kNone ||
