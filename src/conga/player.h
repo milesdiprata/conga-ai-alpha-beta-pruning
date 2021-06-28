@@ -12,15 +12,7 @@
 
 // class Player {
 //  public:
-//   struct Move {
-//     Move(const Board::Point& point, const Board::Action action);
-//     ~Move();
-
-//     Board::Point point;
-//     Board::Action action;
-//   };
-
-//   inline static const auto kNoMove =
+//     inline static const auto kNoMove =
 //       Move(Board::kInvalidPoint, Board::Action::kNone);
 
 //   Player(const Board::StoneType stone_type);

@@ -1,20 +1,22 @@
 #include <conga/square.h>
+#include <conga/stone.h>
+
+#include <optional>
 
 namespace conga {
 
-Square::Square(const State state, const std::size_t num_stones)
-    : state(state), num_stones(num_stones) {}
+Square::Square(const std::optional<Stone>& stone, const std::size_t num_stones)
+    : stone(stone), num_stones(num_stones) {}
 
 Square::Square(const Square& square)
-    : state(square.state), num_stones(square.num_stones) {}
+    : stone(square.stone), num_stones(square.num_stones) {}
 
 Square::~Square() {}
 
 std::ostream& operator<<(std::ostream& os, const Square& square) {
-  if (square.state == Square::State::kBlackStones) {
-    os << Square::kBlackStonesColor;
-  } else if (square.state == Square::State::kWhiteStones) {
-    os << Square::kWhiteStonesColor;
+  if (square.stone) {
+    os << (square.stone == Stone::kBlack ? Square::kBlackStonesColor
+                                         : Square::kWhiteStonesColor);
   } else {
     os << Square::kNoStonesColor;
   }

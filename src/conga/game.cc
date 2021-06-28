@@ -1,12 +1,14 @@
 // #include <conga/game.h>
 
 // #include <iostream>
-
-// using namespace std;
+// #include <utility>
 
 // namespace conga {
-// Game::Game(Board* board, Player* player1, Player* player2)
-//     : board_(board), player1_(player1), player2_(player2) {}
+// Game::Game(std::unique_ptr<Board> board, std::unique_ptr<Player> player1,
+//            std::unique_ptr<Player> player2)
+//     : board_(std::move(board)),
+//       player1_(std::move(player1)),
+//       player2_(std::move(player2)) {}
 
 // Game::~Game() {}
 

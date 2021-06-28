@@ -1,11 +1,13 @@
 #ifndef CONGA_BOARD_H_
 #define CONGA_BOARD_H_
 
+#include <conga/move.h>
 #include <conga/point.h>
 #include <conga/square.h>
 
 #include <array>
 #include <iostream>
+#include <string>
 #include <vector>
 
 namespace conga {
@@ -31,9 +33,11 @@ class Board {
     return squares_[TransformPoint(point)];
   }
 
-  const std::vector<Point> Points(const Square::State state) const;
+  const std::vector<Point> Points(const Stone& stone) const;
 
   void Reset();
+
+  void MakeMove(const Move& move);
 
   friend std::ostream& operator<<(std::ostream& os, const Board& board);
 
@@ -47,10 +51,15 @@ class Board {
            point.y <= kBoardLength;
   }
 
+  const bool ValidMove(const Move& move) const;
+
   std::array<Square, kBoardLength * kBoardLength> squares_;
 };
 
 std::ostream& operator<<(std::ostream& os, const Board& board);
+
+template <typename T>
+const std::string to_string(const T& value);
 
 }  // namespace conga
 

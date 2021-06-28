@@ -4,18 +4,21 @@
 // #include <conga/board.h>
 // #include <conga/player.h>
 
+// #include <memory>
+
 // namespace conga {
 // class Game {
 //  public:
-//   Game(Board* board, Player* player1, Player* player2);
+//   Game(std::unique_ptr<Board> board, std::unique_ptr<Player> player1,
+//        std::unique_ptr<Player> player2);
 //   ~Game();
 
 //   void Play();
 
 //  private:
-//   Board* board_;
-//   Player* player1_;
-//   Player* player2_;
+//   std::unique_ptr<Board> board_;
+//   std::unique_ptr<Player> player1_;
+//   std::unique_ptr<Player> player2_;
 // };
 
 // }  // namespace conga
