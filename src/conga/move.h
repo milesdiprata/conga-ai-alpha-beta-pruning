@@ -19,8 +19,7 @@ struct Move {
 
 namespace move {
 
-static constexpr auto kNoMove =
-    Move(point::kInvalidPoint, point::kInvalidPoint);
+static constexpr auto kNone = Move(point::kInvalid, point::kInvalid);
 
 }  // namespace move
 

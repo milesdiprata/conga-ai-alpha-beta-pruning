@@ -1,26 +1,26 @@
-// #ifndef CONGA_GAME_H_
-// #define CONGA_GAME_H_
+#ifndef CONGA_GAME_H_
+#define CONGA_GAME_H_
 
-// #include <conga/board.h>
-// #include <conga/player.h>
+#include <conga/board.h>
+#include <conga/player.h>
 
-// #include <memory>
+#include <memory>
 
-// namespace conga {
-// class Game {
-//  public:
-//   Game(std::unique_ptr<Board> board, std::unique_ptr<Player> player1,
-//        std::unique_ptr<Player> player2);
-//   ~Game();
+namespace conga {
+class Game {
+ public:
+  Game(std::unique_ptr<Board> board, std::unique_ptr<Player> player1,
+       std::unique_ptr<Player> player2);
+  ~Game();
 
-//   void Play();
+  void Play();
 
-//  private:
-//   std::unique_ptr<Board> board_;
-//   std::unique_ptr<Player> player1_;
-//   std::unique_ptr<Player> player2_;
-// };
+ private:
+  std::unique_ptr<Board> board_;
+  std::unique_ptr<Player> player1_;
+  std::unique_ptr<Player> player2_;
+};
 
-// }  // namespace conga
+}  // namespace conga
 
-// #endif  // CONGA_GAME_H_
+#endif  // CONGA_GAME_H_

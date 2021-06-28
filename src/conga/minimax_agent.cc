@@ -1,104 +1,100 @@
-// #include <conga/board.h>
-// #include <conga/minimax_agent.h>
-// #include <time.h>
+#include <conga/board.h>
+#include <conga/minimax_agent.h>
 
-// #include <algorithm>
-// #include <cmath>
-// #include <functional>
-// #include <memory>
-// #include <vector>
+#include <algorithm>
+#include <cstddef>
+#include <limits>
+#include <vector>
 
-// using namespace std;
+using namespace std;
 
-// namespace conga {
+namespace conga {
 
-// MinimaxAgent::MinimaxAgent(const Board::StoneType player_id,
-//                            const Evaluation evaluation,
-//                            const size_t search_depth)
-//     : Agent(player_id), evaluation_(evaluation), search_depth_(search_depth)
-//     {}
+MinimaxAgent::MinimaxAgent(const Stone& stone, const Evaluation evaluation,
+                           const std::size_t search_depth)
+    : Agent(stone), evaluation_(evaluation), search_depth_(search_depth) {}
 
-// MinimaxAgent::~MinimaxAgent() {}
+MinimaxAgent::~MinimaxAgent() {}
 
-// const Player::Move MinimaxAgent::ComputeMove(const Board& board) const {
-//   return AlphaBetaSearch(board);
-// }
+const Move MinimaxAgent::ComputeMove(const Board& board) const {
+  return AlphaBetaSearch(board);
+}
 
-// const Player::Move MinimaxAgent::AlphaBetaSearch(const Board& board) const {
-//   int best_value = INT_MIN;
-//   auto best_move = kNoMove;
+const Move MinimaxAgent::AlphaBetaSearch(const Board& board) const {
+  int best_value = std::numeric_limits<int>::min();
+  auto best_move = move::kNone;
 
-//   auto valid_moves = ValidMoves(board, stone_type());
-//   for (const auto& valid_move : valid_moves) {
-//     auto new_board = Board(board);
-//     MakeMove(new_board, valid_move);
+  auto valid_moves = board.ValidMoves(stone());
+  for (const auto& valid_move : valid_moves) {
+    auto new_board = Board(board);
+    new_board.MakeMove(valid_move);
 
-//     int value = MinValue(new_board, search_depth_, INT_MIN, INT_MAX);
-//     if (value > best_value) {
-//       best_value = value;
-//       best_move = valid_move;
-//     }
-//   }
+    int value =
+        MinValue(new_board, search_depth_, std::numeric_limits<int>::min(),
+                 std::numeric_limits<int>::max());
+    if (value > best_value) {
+      best_value = value;
+      best_move = valid_move;
+    }
+  }
 
-//   return best_move;
-// }
+  return best_move;
+}
 
-// const int MinimaxAgent::MaxValue(const Board& board, const int depth, int
-// alpha,
-//                                  int beta) const {
-//   auto valid_moves = ValidMoves(board, stone_type());
-//   if (CutoffTest(depth, valid_moves)) {
-//     return EvaluateState(board);
-//   }
+const int MinimaxAgent::MaxValue(const Board& board, const int depth, int alpha,
+                                 int beta) const {
+  auto valid_moves = board.ValidMoves(stone());
+  if (CutoffTest(depth, valid_moves)) {
+    return EvaluateState(board);
+  }
 
-//   for (const auto& valid_move : valid_moves) {
-//     auto new_board = Board(board);
-//     MakeMove(new_board, valid_move);
-//     alpha = max(alpha, MinValue(new_board, depth - 1, alpha, beta));
-//     if (alpha >= beta) {
-//       return beta;
-//     }
-//   }
+  for (const auto& valid_move : valid_moves) {
+    auto new_board = Board(board);
+    new_board.MakeMove(valid_move);
+    alpha = max(alpha, MinValue(new_board, depth - 1, alpha, beta));
+    if (alpha >= beta) {
+      return beta;
+    }
+  }
 
-//   return alpha;
-// }
+  return alpha;
+}
 
-// const int MinimaxAgent::MinValue(const Board& board, const int depth, int
-// alpha,
-//                                  int beta) const {
-//   auto valid_moves = ValidMoves(board, opponent_stone_type());
-//   if (CutoffTest(depth, valid_moves)) {
-//     return EvaluateState(board);
-//   }
+const int MinimaxAgent::MinValue(const Board& board, const int depth, int alpha,
+                                 int beta) const {
+  auto valid_moves = board.ValidMoves(opponent_stone());
+  if (CutoffTest(depth, valid_moves)) {
+    return EvaluateState(board);
+  }
 
-//   for (const auto& valid_move : valid_moves) {
-//     auto new_board = Board(board);
-//     MakeMove(new_board, valid_move);
-//     beta = min(beta, MaxValue(new_board, depth - 1, alpha, beta));
-//     if (beta <= alpha) {
-//       return alpha;
-//     }
-//   }
+  for (const auto& valid_move : valid_moves) {
+    auto new_board = Board(board);
+    new_board.MakeMove(valid_move);
+    beta = min(beta, MaxValue(new_board, depth - 1, alpha, beta));
+    if (beta <= alpha) {
+      return alpha;
+    }
+  }
 
-//   return beta;
-// }
+  return beta;
+}
 
-// inline const bool MinimaxAgent::CutoffTest(const int depth,
-//                                            const vector<Move>& moves) {
-//   return depth == 0 || moves.empty();
-// }
+inline const bool MinimaxAgent::CutoffTest(const std::size_t depth,
+                                           const vector<Move>& moves) {
+  return depth == 0 || moves.empty();
+}
 
-// const int MinimaxAgent::EvaluateState(const Board& board) const {
-//   if (evaluation_ == Evaluation::kPlayerMoves) {
-//     return ValidMoves(board, stone_type()).size();
-//   } else if (evaluation_ == Evaluation::kOpponentMoves) {
-//     return -1 * ValidMoves(board, opponent_stone_type()).size();
-//   } else if (evaluation_ == Evaluation::kPlayerMinusOpponentMoves) {
-//     return ValidMoves(board, stone_type()).size() -
-//            ValidMoves(board, opponent_stone_type()).size();
-//   } else {
-//     return INT_MIN;
-//   }
-// }
+const int MinimaxAgent::EvaluateState(const Board& board) const {
+  if (evaluation_ == Evaluation::kPlayerMoves) {
+    return board.ValidMoves(stone()).size();
+  } else if (evaluation_ == Evaluation::kOpponentMoves) {
+    return kOpponentMovesWeight * board.ValidMoves(opponent_stone()).size();
+  } else if (evaluation_ == Evaluation::kPlayerMinusOpponentMoves) {
+    return (kPlayerMovesWeight * board.ValidMoves(stone()).size()) +
+           (kOpponentMovesWeight * board.ValidMoves(opponent_stone()).size());
+  } else {
+    return INT_MIN;
+  }
+}
 
-// }  // namespace conga
+}  // namespace conga

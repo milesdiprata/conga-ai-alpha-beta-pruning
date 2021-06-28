@@ -6,6 +6,7 @@
 #include <conga/square.h>
 
 #include <array>
+#include <cstddef>
 #include <iostream>
 #include <string>
 #include <vector>

@@ -1,48 +1,53 @@
-// #include <conga/game.h>
+#include <conga/board.h>
+#include <conga/game.h>
+#include <conga/player.h>
 
-// #include <iostream>
-// #include <utility>
+#include <iostream>
+#include <memory>
+#include <utility>
 
-// namespace conga {
-// Game::Game(std::unique_ptr<Board> board, std::unique_ptr<Player> player1,
-//            std::unique_ptr<Player> player2)
-//     : board_(std::move(board)),
-//       player1_(std::move(player1)),
-//       player2_(std::move(player2)) {}
+namespace conga {
+Game::Game(std::unique_ptr<Board> board, std::unique_ptr<Player> player1,
+           std::unique_ptr<Player> player2)
+    : board_(std::move(board)),
+      player1_(std::move(player1)),
+      player2_(std::move(player2)) {}
 
-// Game::~Game() {}
+Game::~Game() {}
 
-// void Game::Play() {
-//   cout << *board_ << endl;
+void Game::Play() {
+  std::cout << *board_ << std::endl;
 
-//   int num_moves = 0;
+  int num_moves = 0;
 
-//   while (1) {
-//     if (player1_->Lost(*board_)) {
-//       cout << "Game Over: Player 1 lost in " << num_moves << " moves." <<
-//       endl; break;
-//     }
+  while (1) {
+    if (board_->Lost(player1_->stone())) {
+      std::cout << "Game Over: Player 1 lost in " << num_moves << " moves."
+                << std::endl;
+      break;
+    }
 
-//     auto player1_move = player1_->GetMove(*board_);
-//     player1_->MakeMove(*board_, player1_move);
-//     // cin.get();
-//     cout << *board_ << endl << endl;
-//     cout << "Player 1 move: " << player1_move << endl;
+    auto player1_move = player1_->GetMove(*board_);
+    board_->MakeMove(player1_move);
+    // cin.get();
+    std::cout << *board_ << std::endl << std::endl;
+    std::cout << "Player 1 move: " << player1_move << std::endl;
 
-//     ++num_moves;
-//     cout << "Moves: " << num_moves << endl;
+    ++num_moves;
+    std::cout << "Moves: " << num_moves << std::endl;
 
-//     if (player2_->Lost(*board_)) {
-//       cout << "Game Over: Player 2 lost in " << num_moves << " moves." <<
-//       endl; break;
-//     }
+    if (board_->Lost(player2_->stone())) {
+      std::cout << "Game Over: Player 2 lost in " << num_moves << " moves."
+                << std::endl;
+      break;
+    }
 
-//     auto player2_move = player2_->GetMove(*board_);
-//     player2_->MakeMove(*board_, player2_move);
-//     // cin.get();
-//     cout << *board_ << endl << endl;
-//     cout << "Player 2 move: " << player2_move << endl;
-//   }
-// }
+    auto player2_move = player2_->GetMove(*board_);
+    board_->MakeMove(player2_move);
+    // cin.get();
+    std::cout << *board_ << std::endl << std::endl;
+    std::cout << "Player 2 move: " << player2_move << std::endl;
+  }
+}
 
-// }  // namespace conga
+}  // namespace conga

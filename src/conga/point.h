@@ -18,7 +18,7 @@ struct Point {
 
 namespace point {
 
-static constexpr auto kInvalidPoint =
+static constexpr auto kInvalid =
     Point(std::numeric_limits<int>::max(), std::numeric_limits<int>::max());
 
 namespace direction {

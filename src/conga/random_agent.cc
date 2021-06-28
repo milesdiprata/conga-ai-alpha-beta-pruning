@@ -16,7 +16,7 @@ RandomAgent::~RandomAgent() {}
 const Move RandomAgent::ComputeMove(const Board& board) const {
   auto valid_moves = board.ValidMoves(stone());
   if (valid_moves.empty()) {
-    return move::kNoMove;
+    return move::kNone;
   }
 
   static auto random_device = std::random_device();
