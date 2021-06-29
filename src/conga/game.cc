@@ -8,8 +8,8 @@
 #include "conga/player.h"
 
 namespace conga {
-Game::Game(std::unique_ptr<Board> board, std::unique_ptr<Player> player1,
-           std::unique_ptr<Player> player2)
+Game::Game(std::unique_ptr<Board>&& board, std::unique_ptr<Player>&& player1,
+           std::unique_ptr<Player>&& player2)
     : board_(std::move(board)),
       player1_(std::move(player1)),
       player2_(std::move(player2)) {}
