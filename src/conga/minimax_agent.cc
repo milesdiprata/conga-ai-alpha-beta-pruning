@@ -22,16 +22,18 @@ const Move MinimaxAgent::ComputeMove(const Board& board) const {
 const Move MinimaxAgent::IterativeDeepeningSearch(const Board& board) const {
   std::clock_t clock_start = std::clock();
   std::size_t depth = 1;
+  std::size_t num_explored = 0;
 
   auto best_move = move::kNone;
 
   while (1) {
-    auto move = AlphaBetaSearch(board, depth, clock_start);
+    auto move = AlphaBetaSearch(board, depth, clock_start, num_explored);
 
     if (TimeCutoff(clock_start)) {
-      std::cout << "Elapsed time: " << ElapsedTimeMillis(clock_start) << "ms"
+      std::cout << "Search time: " << ElapsedTimeMillis(clock_start) << " ms"
                 << std::endl;
-      std::cout << "Depth: " << depth << std::endl;
+      std::cout << "Depth explored: " << depth << std::endl;
+      std::cout << "States explored: " << num_explored << std::endl;
       break;
     }
 
@@ -45,7 +47,8 @@ const Move MinimaxAgent::IterativeDeepeningSearch(const Board& board) const {
 
 const Move MinimaxAgent::AlphaBetaSearch(const Board& board,
                                          const std::size_t depth,
-                                         const std::clock_t clock_start) const {
+                                         const std::clock_t clock_start,
+                                         std::size_t& num_explored) const {
   int best_value = std::numeric_limits<int>::min();
   auto best_move = move::kNone;
 
@@ -54,8 +57,9 @@ const Move MinimaxAgent::AlphaBetaSearch(const Board& board,
     auto new_board = Board(board);
     new_board.MakeMove(valid_move);
 
-    int value = MinValue(new_board, depth, std::numeric_limits<int>::min(),
-                         std::numeric_limits<int>::max(), clock_start);
+    int value =
+        MinValue(new_board, depth, std::numeric_limits<int>::min(),
+                 std::numeric_limits<int>::max(), clock_start, num_explored);
 
     if (value > best_value) {
       best_value = value;
@@ -67,20 +71,20 @@ const Move MinimaxAgent::AlphaBetaSearch(const Board& board,
 }
 
 const int MinimaxAgent::MaxValue(const Board& board, const int depth, int alpha,
-                                 int beta,
-                                 const std::clock_t clock_start) const {
+                                 int beta, const std::clock_t clock_start,
+                                 std::size_t& num_explored) const {
   auto valid_moves = board.ValidMoves(stone());
   if (CutoffTest(depth, valid_moves) || TimeCutoff(clock_start)) {
     return EvaluateState(board);
   }
 
-  // TODO: Increment number of explored nodes
+  ++num_explored;
 
   for (const auto& valid_move : valid_moves) {
     auto new_board = Board(board);
     new_board.MakeMove(valid_move);
-    alpha = std::max(alpha,
-                     MinValue(new_board, depth - 1, alpha, beta, clock_start));
+    alpha = std::max(alpha, MinValue(new_board, depth - 1, alpha, beta,
+                                     clock_start, num_explored));
 
     if (alpha >= beta) {
       return beta;
@@ -91,20 +95,20 @@ const int MinimaxAgent::MaxValue(const Board& board, const int depth, int alpha,
 }
 
 const int MinimaxAgent::MinValue(const Board& board, const int depth, int alpha,
-                                 int beta,
-                                 const std::clock_t clock_start) const {
+                                 int beta, const std::clock_t clock_start,
+                                 std::size_t& num_explored) const {
   auto valid_moves = board.ValidMoves(opponent_stone());
   if (CutoffTest(depth, valid_moves) || TimeCutoff(clock_start)) {
     return EvaluateState(board);
   }
 
-  // TODO: Increment number of explored nodes
+  ++num_explored;
 
   for (const auto& valid_move : valid_moves) {
     auto new_board = Board(board);
     new_board.MakeMove(valid_move);
-    beta = std::min(beta,
-                    MaxValue(new_board, depth - 1, alpha, beta, clock_start));
+    beta = std::min(beta, MaxValue(new_board, depth - 1, alpha, beta,
+                                   clock_start, num_explored));
     if (beta <= alpha) {
       return alpha;
     }

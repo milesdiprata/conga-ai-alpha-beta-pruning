@@ -37,13 +37,16 @@ class MinimaxAgent : public Agent {
   const Move IterativeDeepeningSearch(const Board& board) const;
 
   const Move AlphaBetaSearch(const Board& board, const std::size_t depth,
-                             const std::clock_t clock_start) const;
+                             const std::clock_t clock_start,
+                             std::size_t& num_explored) const;
 
   const int MaxValue(const Board& board, const int depth, int alpha, int beta,
-                     const std::clock_t clock_start) const;
+                     const std::clock_t clock_start,
+                     std::size_t& num_explored) const;
 
   const int MinValue(const Board& board, const int depth, int alpha, int beta,
-                     const std::clock_t clock_start) const;
+                     const std::clock_t clock_start,
+                     std::size_t& num_explored) const;
 
   const bool TimeCutoff(const std::clock_t clock_start) const;
 
