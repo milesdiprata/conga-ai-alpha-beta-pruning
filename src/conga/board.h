@@ -1,15 +1,15 @@
 #ifndef CONGA_BOARD_H_
 #define CONGA_BOARD_H_
 
-#include <conga/move.h>
-#include <conga/point.h>
-#include <conga/square.h>
-
 #include <array>
 #include <cstddef>
 #include <iostream>
 #include <string>
 #include <vector>
+
+#include "conga/move.h"
+#include "conga/point.h"
+#include "conga/square.h"
 
 namespace conga {
 

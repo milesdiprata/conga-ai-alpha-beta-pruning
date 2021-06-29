@@ -1,13 +1,13 @@
 #ifndef CONGA_MINIMAX_AGENT_ALPHA_BETA_PRUNING_H_
 #define CONGA_MINIMAX_AGENT_ALPHA_BETA_PRUNING_H_
 
-#include <conga/agent.h>
-#include <conga/board.h>
-#include <conga/move.h>
-#include <conga/stone.h>
-
 #include <cstddef>
 #include <vector>
+
+#include "conga/agent.h"
+#include "conga/board.h"
+#include "conga/move.h"
+#include "conga/stone.h"
 
 namespace conga {
 

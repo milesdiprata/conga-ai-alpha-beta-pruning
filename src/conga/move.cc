@@ -1,7 +1,8 @@
-#include <conga/move.h>
-#include <conga/point.h>
+#include "conga/move.h"
 
 #include <iostream>
+
+#include "conga/point.h"
 
 namespace conga {
 

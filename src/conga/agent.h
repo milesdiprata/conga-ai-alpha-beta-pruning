@@ -1,10 +1,10 @@
 #ifndef CONGA_AGENT_H_
 #define CONGA_AGENT_H_
 
-#include <conga/board.h>
-#include <conga/move.h>
-#include <conga/player.h>
-#include <conga/stone.h>
+#include "conga/board.h"
+#include "conga/move.h"
+#include "conga/player.h"
+#include "conga/stone.h"
 
 namespace conga {
 

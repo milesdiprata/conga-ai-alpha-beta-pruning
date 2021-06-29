@@ -1,10 +1,10 @@
-#include <conga/board.h>
-#include <conga/game.h>
-#include <conga/minimax_agent.h>
-#include <conga/random_agent.h>
-#include <conga/stone.h>
-
 #include <memory>
+
+#include "conga/board.h"
+#include "conga/game.h"
+#include "conga/minimax_agent.h"
+#include "conga/random_agent.h"
+#include "conga/stone.h"
 
 int main(const int argc, const char* const argv[]) {
   auto game = conga::Game(

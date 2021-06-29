@@ -1,8 +1,9 @@
-#include <conga/agent.h>
-#include <conga/board.h>
-#include <conga/move.h>
-#include <conga/player.h>
-#include <conga/stone.h>
+#include "conga/agent.h"
+
+#include "conga/board.h"
+#include "conga/move.h"
+#include "conga/player.h"
+#include "conga/stone.h"
 
 namespace conga {
 

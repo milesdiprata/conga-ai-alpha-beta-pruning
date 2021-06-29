@@ -1,9 +1,9 @@
 #ifndef CONGA_MOVE_H_
 #define CONGA_MOVE_H_
 
-#include <conga/point.h>
-
 #include <iostream>
+
+#include "conga/point.h"
 
 namespace conga {
 

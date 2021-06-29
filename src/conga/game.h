@@ -1,10 +1,10 @@
 #ifndef CONGA_GAME_H_
 #define CONGA_GAME_H_
 
-#include <conga/board.h>
-#include <conga/player.h>
-
 #include <memory>
+
+#include "conga/board.h"
+#include "conga/player.h"
 
 namespace conga {
 class Game {

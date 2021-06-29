@@ -1,4 +1,4 @@
-#include <conga/point.h>
+#include "conga/point.h"
 
 #include <iostream>
 

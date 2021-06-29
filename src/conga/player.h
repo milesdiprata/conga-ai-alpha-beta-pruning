@@ -1,9 +1,9 @@
 #ifndef CONGA_PLAYER_H_
 #define CONGA_PLAYER_H_
 
-#include <conga/board.h>
-#include <conga/move.h>
-#include <conga/stone.h>
+#include "conga/board.h"
+#include "conga/move.h"
+#include "conga/stone.h"
 
 namespace conga {
 

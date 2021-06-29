@@ -1,8 +1,9 @@
-#include <conga/board.h>
-#include <conga/player.h>
-#include <conga/stone.h>
+#include "conga/player.h"
 
 #include <stdexcept>
+
+#include "conga/board.h"
+#include "conga/stone.h"
 
 using namespace std;
 

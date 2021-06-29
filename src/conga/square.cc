@@ -1,7 +1,8 @@
-#include <conga/square.h>
-#include <conga/stone.h>
+#include "conga/square.h"
 
 #include <optional>
+
+#include "conga/stone.h"
 
 namespace conga {
 

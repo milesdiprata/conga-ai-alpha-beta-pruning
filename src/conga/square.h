@@ -1,10 +1,10 @@
 #ifndef CONGA_SQUARE_H_
 #define CONGA_SQUARE_H_
 
-#include <conga/stone.h>
-
 #include <iostream>
 #include <optional>
+
+#include "conga/stone.h"
 
 namespace conga {
 

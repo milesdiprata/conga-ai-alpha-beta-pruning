@@ -1,10 +1,11 @@
-#include <conga/board.h>
-#include <conga/minimax_agent.h>
+#include "conga/minimax_agent.h"
 
 #include <algorithm>
 #include <cstddef>
 #include <limits>
 #include <vector>
+
+#include "conga/board.h"
 
 using namespace std;
 

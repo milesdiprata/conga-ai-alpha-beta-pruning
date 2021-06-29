@@ -1,11 +1,12 @@
-#include <conga/agent.h>
-#include <conga/board.h>
-#include <conga/move.h>
-#include <conga/random_agent.h>
-#include <conga/stone.h>
+#include "conga/random_agent.h"
 
 #include <iterator>
 #include <random>
+
+#include "conga/agent.h"
+#include "conga/board.h"
+#include "conga/move.h"
+#include "conga/stone.h"
 
 namespace conga {
 

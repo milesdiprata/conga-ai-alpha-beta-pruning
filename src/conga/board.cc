@@ -1,11 +1,12 @@
-#include <conga/board.h>
-#include <conga/square.h>
+#include "conga/board.h"
 
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
 #include <utility>
 #include <vector>
+
+#include "conga/square.h"
 
 namespace conga {
 

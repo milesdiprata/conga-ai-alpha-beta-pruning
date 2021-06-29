@@ -1,10 +1,11 @@
-#include <conga/board.h>
-#include <conga/game.h>
-#include <conga/player.h>
+#include "conga/game.h"
 
 #include <iostream>
 #include <memory>
 #include <utility>
+
+#include "conga/board.h"
+#include "conga/player.h"
 
 namespace conga {
 Game::Game(std::unique_ptr<Board> board, std::unique_ptr<Player> player1,
