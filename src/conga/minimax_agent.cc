@@ -56,6 +56,7 @@ const Move MinimaxAgent::AlphaBetaSearch(const Board& board,
 
     int value = MinValue(new_board, depth, std::numeric_limits<int>::min(),
                          std::numeric_limits<int>::max(), clock_start);
+
     if (value > best_value) {
       best_value = value;
       best_move = valid_move;
@@ -80,6 +81,7 @@ const int MinimaxAgent::MaxValue(const Board& board, const int depth, int alpha,
     new_board.MakeMove(valid_move);
     alpha = std::max(alpha,
                      MinValue(new_board, depth - 1, alpha, beta, clock_start));
+
     if (alpha >= beta) {
       return beta;
     }
