@@ -5,8 +5,6 @@
 #include "conga/board.h"
 #include "conga/stone.h"
 
-using namespace std;
-
 namespace conga {
 
 Player::Player(const Stone& stone)

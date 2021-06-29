@@ -2,6 +2,7 @@
 #define CONGA_MINIMAX_AGENT_ALPHA_BETA_PRUNING_H_
 
 #include <cstddef>
+#include <ctime>
 #include <vector>
 
 #include "conga/agent.h"
@@ -19,27 +20,34 @@ class MinimaxAgent : public Agent {
     kPlayerMinusOpponentMoves,
   };
 
-  static constexpr std::size_t kDefaultSearchDepth = 3;
   static constexpr int kPlayerMovesWeight = 1;
-  static constexpr int kOpponentMovesWeight = -2;
-  static constexpr double kSearchTimeLimitSecs = 1.0;
+  static constexpr int kOpponentMovesWeight = -5;
+  static constexpr double kDeafultSearchTimeLimitMillis = 1000.0;
+  static constexpr int kMillisPerSecond = 1000;
 
   MinimaxAgent(
       const Stone& stone,
       const Evaluation evaluation = Evaluation::kPlayerMinusOpponentMoves,
-      const std::size_t search_depth = kDefaultSearchDepth);
+      const double search_time_limit_millis = kDeafultSearchTimeLimitMillis);
   virtual ~MinimaxAgent();
 
   const Move ComputeMove(const Board& board) const override;
 
  private:
-  const Move AlphaBetaSearch(const Board& board) const;
+  const Move IterativeDeepeningSearch(const Board& board) const;
 
-  const int MaxValue(const Board& board, const int depth, int alpha,
-                     int beta) const;
+  const Move AlphaBetaSearch(const Board& board, const std::size_t depth,
+                             const std::clock_t clock_start) const;
 
-  const int MinValue(const Board& board, const int depth, int alpha,
-                     int beta) const;
+  const int MaxValue(const Board& board, const int depth, int alpha, int beta,
+                     const std::clock_t clock_start) const;
+
+  const int MinValue(const Board& board, const int depth, int alpha, int beta,
+                     const std::clock_t clock_start) const;
+
+  const bool TimeCutoff(const std::clock_t clock_start) const;
+
+  static const double ElapsedTimeMillis(const std::clock_t clock_start);
 
   static const bool CutoffTest(const std::size_t depth,
                                const std::vector<Move>& moves);
@@ -48,7 +56,7 @@ class MinimaxAgent : public Agent {
 
   Evaluation evaluation_;
 
-  std::size_t search_depth_;
+  double search_time_limit_millis_;
 };
 
 }  // namespace conga
